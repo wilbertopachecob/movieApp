@@ -1,0 +1,38 @@
+<div (click)="detail.openModal()">
+  <img class="card-img-top" [src]="movie.poster" alt="Card image cap" />
+  <div class="card-body">
+    <div class="rating float-end" style="text-align: end">
+      {{ calculateRating() }}
+    </div>
+    <h5 class="card-title">{{ movie.title }}</h5>
+    <p class="card-text">
+      This is a longer card with supporting text below as a natural lead-in to
+      additional content. This content is a little bit longer.
+    </p>
+    <p class="card-text">
+      <small class="text-muted"
+        ><i class="far fa-calendar-alt"></i> {{ movie.released }}</small
+      >
+    </p>
+    <div class="actions btn-group">
+      <a class="btn btn-primary" [routerLink]="['/movie/edit', movie.id || 0]">
+        <i class="fas fa-edit"></i>
+        Edit
+      </a>
+      <button
+        class="btn btn-danger ml-1"
+        (click)="delete($event, movie.id || 0)"
+      >
+        <span
+          class="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+          *ngIf="isLoading"
+        ></span>
+        <i *ngIf="!isLoading" class="far fa-trash-alt"></i>
+        Delete
+      </button>
+    </div>
+  </div>
+</div>
+<app-details #detail [movie]="movie"></app-details>

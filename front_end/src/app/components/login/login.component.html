@@ -1,0 +1,72 @@
+<div class="container mt-5">
+  <div
+    *ngIf="flashMSG"
+    class="alert alert-dismissible"
+    [ngClass]="'alert-' + flashMSG.type"
+  >
+    <a
+      class="close"
+      data-dismiss="alert"
+      aria-label="close"
+      style="cursor: pointer"
+      (click)="flashMSG = null"
+      >&times;</a
+    >
+    {{ flashMSG.msg }}
+  </div>
+  <div class="row">
+    <div class="login-panel panel panel-default mx-auto">
+      <div class="panel-heading">
+        <h3 class="panel-title">Login</h3>
+      </div>
+      <div class="panel-body">
+        <form role="form" (submit)="loginUser(f)" #f="ngForm">
+          <fieldset>
+            <div class="form-group">
+              <input
+                class="form-control"
+                placeholder="E-mail"
+                name="email"
+                type="email"
+                autofocus=""
+                id="email"
+                ngModel
+                #email="ngModel"
+                [class.is-invalid]="email.invalid && email.touched"
+                required
+              />
+              <div
+                class="invalid-feedback d-block"
+                *ngIf="email.invalid && email.touched"
+              >
+                The email can not be empty.
+              </div>
+            </div>
+            <div class="form-group">
+              <input
+                class="form-control"
+                placeholder="Password"
+                type="password"
+                value=""
+                id="password"
+                ngModel
+                #password="ngModel"
+                [class.is-invalid]="password.invalid && password.touched"
+                name="password"
+                required
+              />
+              <div
+                class="invalid-feedback d-block"
+                *ngIf="password.invalid && password.touched"
+              >
+                The password can not be empty.
+              </div>
+            </div>
+            <!-- Change this to a button or input when using this as a form -->
+            <button class="btn btn-sm btn-success">Log in</button>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-12 mb-2">
+      <a class="btn btn-primary float-right" routerLink="/movie/add"
+        ><i class="fas fa-plus"></i> Add Movie</a
+      >
+    </div>
+    <div class="col-xl-12 filters">
+      <form>
+        <div class="row" style="width: 100%">
+          <div class="col-2 col-xl-2 col-lg-2 col-md-12">
+            <div class="form-group">
+              <select name="filters" id="filters" class="form-control">
+                <option value="title">Title</option>
+                <option value="genre">Genre</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-7 col-xl-7 col-lg-7 col-md-12">
+            <input
+              type="text"
+              class="form-control"
+              id="search_field"
+              aria-label="Search"
+              aria-describedby="search_movie"
+              (keyup.enter)="getMovies(searchMovie.value)"
+              #searchMovie
+            />
+          </div>
+          <div class="col-3 col-xl-3 col-lg-3 col-md-12">
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              id="search_movie"
+              (click)="getMovies(searchMovie.value)"
+            >
+              <i class="fas fa-search"></i>
+              Seach
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <app-movie
+      *ngFor="let movie of movies"
+      [movie]="movie"
+      class="card col-4 col-sm-4 col-md-4 col-lg-4 my-1 px-0"
+      (removedMovie)="removeFromMovies($event)"
+      role="button"
+    ></app-movie>
+  </div>
+</div>
