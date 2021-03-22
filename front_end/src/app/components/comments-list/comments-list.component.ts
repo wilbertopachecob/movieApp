@@ -40,8 +40,6 @@ export class CommentsListComponent implements OnInit {
   }
 
   canManage(userID: number): boolean {
-    console.log(this.user.id === userID || this._auth.isAdmin());
-
     return this.user.id === userID || this._auth.isAdmin();
   }
 

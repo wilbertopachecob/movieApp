@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppStoreService } from 'src/app/app-store.service';
 import { Comment } from 'src/app/models/Comment';
 import { Movie } from 'src/app/models/Movie';
@@ -32,7 +33,8 @@ export class CommentComponent implements OnInit {
     private _store: AppStoreService,
     private _router: Router,
     private _movieEvents: MovieEventsService,
-    private _auth: AuthService
+    private _auth: AuthService,
+    private _modalService: NgbModal
   ) {}
 
   ngOnInit(): void {}
@@ -56,6 +58,9 @@ export class CommentComponent implements OnInit {
         );
       }
     } else {
+      //closing all open modals before redirectiong
+      this._modalService.dismissAll('Redirecting to log in');
+
       this._router.navigate(['/login']);
     }
   }

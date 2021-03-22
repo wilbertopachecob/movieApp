@@ -4,13 +4,17 @@ import {
   HttpInterceptor,
   HttpHandler,
   HttpRequest,
+  HttpErrorResponse,
 } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
 
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { Router } from '@angular/router';
 
 /** Pass untouched request through to the next request handler. */
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
+  constructor(private _router: Router) {}
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
@@ -25,6 +29,17 @@ export class TokenInterceptor implements HttpInterceptor {
       });
     }
     // send cloned request with header to the next handler.
-    return next.handle(req);
+    return next.handle(req).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 403) {
+          this.handle403Error();
+        }
+        return throwError(error);
+      })
+    );
+  }
+
+  handle403Error() {
+    this._router.navigate(['/login']);
   }
 }

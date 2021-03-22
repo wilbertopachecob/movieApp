@@ -3,11 +3,11 @@ const commentCtrl = {},
 
 commentCtrl.addComment = (data, res) => {
   let sql = "INSERT INTO comments SET ?";
-  db.query(sql, data, (err, _) => {
+  db.query(sql, data, (err, info) => {
     if (err) {
       throw err;
     }
-    res.json({ status: "success", msg: "Comment added successfully" });
+    commentCtrl.getComment(info.insertId, res);
   });
 };
 
@@ -26,6 +26,25 @@ commentCtrl.getComments = (movieID, res) => {
       throw err;
     }
     res.json(results);
+  });
+};
+
+commentCtrl.getComment = (commentID, res) => {
+  let sql = `SELECT 
+  c.content,  
+  c.id,  
+  c.movie_id,  
+  c.user_id, 
+  c.parent_id,   
+  c.updated_at,
+  c.created_at,
+  u.name AS user_name FROM comments c LEFT JOIN users u ON c.user_id = u.id WHERE c.id = ?  LIMIT 1`;
+
+  db.query(sql, commentID, (err, results) => {
+    if (err) {
+      throw err;
+    }
+    res.json(results[0]);
   });
 };
 

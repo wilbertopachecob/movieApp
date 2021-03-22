@@ -23,8 +23,6 @@ export class CommentService {
     return this.httpClient.put(`${environment.apiURL}/comment/update`, data);
   }
   addComment(data: Comment): Observable<Comment> {
-    console.log({ data });
-
     return this.httpClient.post<Comment>(
       `${environment.apiURL}/comment/add`,
       data

@@ -21,7 +21,9 @@ loginCtrl.login = async (data, res) => {
     if (isValidPass) {
       delete user.password;
       const payload = { userID: user.id, roleID: user.role_id };
-      const token = jwt.sign(payload, process.env.SECRET_TOKEN);
+      const token = jwt.sign(payload, process.env.SECRET_TOKEN, {
+        expiresIn: "1h",
+      });
       res.json({
         token,
         user,

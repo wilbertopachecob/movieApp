@@ -33,8 +33,6 @@ export class AuthService {
   }
 
   isAdmin(): boolean {
-    console.log(this.isLoggedIn(), this.getUserRole());
-
     return this.isLoggedIn() && this.getUserRole() === 1;
   }
 

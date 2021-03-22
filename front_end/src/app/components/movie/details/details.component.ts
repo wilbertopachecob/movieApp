@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { Comment } from 'src/app/models/Comment';
 import { Movie } from 'src/app/models/Movie';
 import { CommentService } from 'src/app/services/comment.service';
@@ -46,6 +47,11 @@ export class DetailsComponent implements OnInit {
     this.subscriptions.push(
       this._movieEvents
         .getActionAddCommentSubscription()
+        .pipe(
+          filter((comment: Comment) => {
+            return this.movie.id === comment.movie_id;
+          })
+        )
         .subscribe((comment: Comment) => {
           this.addComment(comment);
         })
@@ -100,7 +106,10 @@ export class DetailsComponent implements OnInit {
     return total && weighted ? weighted / total : 0;
   }
   addComment(comment: Comment) {
+    console.log({ comment });
+
     this.comments.push(comment);
+    console.log(this.comments);
   }
   ngOnDestroy(): void {
     this.subscriptions.forEach((s) => s.unsubscribe());
