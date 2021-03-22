@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { Movie } from 'src/app/models/Movie';
+import { AuthService } from 'src/app/services/auth.service';
 import { MovieService } from 'src/app/services/movie.service';
 
 @Component({
@@ -12,7 +13,10 @@ export class HomeComponent implements OnInit {
   movies: any[] = [];
   isLoading: boolean = false;
 
-  constructor(private _movieService: MovieService) {}
+  constructor(
+    private _movieService: MovieService,
+    private _auth: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.getMovies('Home');
@@ -36,9 +40,12 @@ export class HomeComponent implements OnInit {
       );
     }
   }
-  removeFromMovies(movie: Movie) {
-    console.log({ movie });
 
+  removeFromMovies(movie: Movie) {
     this.movies = this.movies.filter((m) => m.id !== movie.id);
+  }
+
+  canManage() {
+    return this._auth.isAdmin();
   }
 }

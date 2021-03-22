@@ -3,7 +3,14 @@ const express = require("express"),
   userCtrl = require("../controllers/user-controller"),
   loginCtrl = require("../controllers/login-controller"),
   movieCtrl = require("../controllers/movie-controller"),
-  commentCtrl = require("../controllers/comment-controller");
+  commentCtrl = require("../controllers/comment-controller"),
+  auth = require("../controllers/auth-controller");
+
+const adminMiddlewares = [
+  auth.verifyToken,
+  auth.validateToken,
+  auth.validateAdmin,
+];
 
 router.get("/", (req, res) => {
   res.send("Hello from me");
@@ -26,7 +33,7 @@ router.get("/user", (req, res) => {
   res.json(user);
 });
 
-router.post("/user/add", (req, res) => {
+router.post("/user/add", ...adminMiddlewares, (req, res) => {
   let userData = req.body;
   userCtrl.addUser(userData, res);
 });
@@ -44,7 +51,7 @@ router.get("/movie/all", (req, res) => {
   movieCtrl.getMovies(filters, res);
 });
 
-router.post("/movie/add", (req, res) => {
+router.post("/movie/add", ...adminMiddlewares, (req, res) => {
   let movie = req.body || {};
   movieCtrl.addMovie(movie, res);
 });

@@ -8,28 +8,7 @@ import { MovieService } from './services/movie.service';
 })
 export class AppComponent {
   title = 'movieApp';
-  movies: any[] = [];
-  isLoading: boolean = false;
+  constructor() {}
 
-  constructor(private movieService: MovieService) {}
-
-  ngOnInit(): void {
-    this.getMovies('Home');
-  }
-
-  getMovies(searchTerm: string) {
-    if (searchTerm) {
-      this.isLoading = true;
-      this.movieService.getMoviesByNameFilter(searchTerm).subscribe(
-        (res: any) => {
-          this.isLoading = false;
-          this.movies = res.Search;
-        },
-        (error) => {
-          this.isLoading = false;
-          console.log(error);
-        }
-      );
-    }
-  }
+  ngOnInit(): void {}
 }

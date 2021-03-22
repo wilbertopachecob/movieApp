@@ -50,16 +50,6 @@ export class DetailsComponent implements OnInit {
           this.addComment(comment);
         })
     );
-    console.log(this.movie.id);
-
-    this._commentService.getAllMovieComments(Number(this.movie.id)).subscribe(
-      (comments: Comment[]) => {
-        this.comments = comments;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
   }
   closeModal() {
     (document.querySelector('#close_modal') as HTMLButtonElement).click();
@@ -67,6 +57,15 @@ export class DetailsComponent implements OnInit {
 
   openModal() {
     if (this.movie.id) {
+      this._commentService.getAllMovieComments(Number(this.movie.id)).subscribe(
+        (comments: Comment[]) => {
+          this.comments = comments;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+
       this._movieService.getMovieById(this.movie.id).subscribe(
         (movie: Movie) => {
           this.movie = movie;

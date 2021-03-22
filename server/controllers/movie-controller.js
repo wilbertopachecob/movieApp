@@ -35,7 +35,7 @@ movieCtrl.updateMovie = (data, res) => {
   Object.keys(data).forEach((key) => {
     if (key !== "id") {
       updatedValues.push(data[key]);
-      sql += `, ${key} = ?`;
+      sql += `, ${db.escapeId(key)} = ?`;
     }
   });
   sql += `
@@ -51,8 +51,15 @@ movieCtrl.updateMovie = (data, res) => {
 
 movieCtrl.getMovies = (filters = {}, res) => {
   let sql = "SELECT * FROM movies";
-  if (filters && Object.keys(filters).length) {
-    sql += ` WHERE ${filters.filter} LIKE '%${filters.searchTerm}%'`;
+
+  if (
+    filters &&
+    Object.keys(filters).length &&
+    ["title", "genre"].includes(filters.filter)
+  ) {
+    sql += ` WHERE ${db.escapeId(filters.filter)} LIKE '%${
+      filters.searchTerm
+    }%'`;
   }
 
   db.query(sql, null, (err, results) => {

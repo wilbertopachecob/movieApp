@@ -28,10 +28,11 @@ export class LoginComponent implements OnInit {
         password: f.value.password,
       };
       this._auth.loginUser(user).subscribe(
-        (user: User) => {
-          localStorage.setItem('token', user.token || '');
+        (res: any) => {
+          localStorage.setItem('token', res.token || '');
+          localStorage.setItem('user', JSON.stringify(res.user) || '{}');
           this._router.navigate(['/home']);
-          this._store.setUser(user);
+          this._store.setUser(res.user);
         },
         (error) => {
           this.flashMSG = {

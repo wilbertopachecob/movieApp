@@ -14,7 +14,7 @@
         ><i class="far fa-calendar-alt"></i> {{ movie.released }}</small
       >
     </p>
-    <div class="actions btn-group">
+    <div class="actions btn-group" *ngIf="canManage()">
       <a class="btn btn-primary" [routerLink]="['/movie/edit', movie.id || 0]">
         <i class="fas fa-edit"></i>
         Edit

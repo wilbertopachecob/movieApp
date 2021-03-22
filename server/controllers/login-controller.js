@@ -2,6 +2,7 @@ const loginCtrl = {},
   userCtrl = require("./user-controller"),
   bcrypt = require("bcrypt"),
   jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 loginCtrl.login = async (data, res) => {
   let user = {};
@@ -19,10 +20,12 @@ loginCtrl.login = async (data, res) => {
     const isValidPass = bcrypt.compareSync(data.password, user.password);
     if (isValidPass) {
       delete user.password;
-      const payload = { subject: user.id };
-      const token = jwt.sign(payload, "movie-app-secret-presidio");
-      user.token = token;
-      res.json(user);
+      const payload = { userID: user.id, roleID: user.role_id };
+      const token = jwt.sign(payload, process.env.SECRET_TOKEN);
+      res.json({
+        token,
+        user,
+      });
       return;
     }
     res.status(401);

@@ -7,6 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Movie } from 'src/app/models/Movie';
+import { AuthService } from 'src/app/services/auth.service';
 import { MovieService } from 'src/app/services/movie.service';
 import { DetailsComponent } from './details/details.component';
 
@@ -30,7 +31,7 @@ export class MovieComponent implements OnInit {
   isLoading: boolean = false;
   @Output() removedMovie = new EventEmitter<Movie>();
   @ViewChild('detail') detail: DetailsComponent | undefined;
-  constructor(private movieService: MovieService) {}
+  constructor(private movieService: MovieService, private _auth: AuthService) {}
 
   ngOnInit(): void {}
 
@@ -66,5 +67,9 @@ export class MovieComponent implements OnInit {
       weighted += (i + 1) * this.movie.ratings![i];
     }
     return total && weighted ? weighted / total : 0;
+  }
+
+  canManage() {
+    return this._auth.isAdmin();
   }
 }

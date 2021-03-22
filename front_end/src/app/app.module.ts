@@ -16,6 +16,7 @@ import { LoginComponent } from './components/login/login.component';
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './components/home/home.component';
 import { CommentsListComponent } from './components/comments-list/comments-list.component';
+import { httpInterceptorProviders } from './http_interceptors';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,7 @@ import { CommentsListComponent } from './components/comments-list/comments-list.
     NgbModule,
     FormsModule,
   ],
-  providers: [],
+  providers: [httpInterceptorProviders],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
