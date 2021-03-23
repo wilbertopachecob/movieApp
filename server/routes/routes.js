@@ -4,6 +4,7 @@ const express = require("express"),
   loginCtrl = require("../controllers/login-controller"),
   movieCtrl = require("../controllers/movie-controller"),
   commentCtrl = require("../controllers/comment-controller"),
+  rateMovieCtrl = require("../controllers/rate-movie-controller"),
   auth = require("../controllers/auth-controller");
 
 const adminMiddlewares = [
@@ -102,6 +103,40 @@ router.delete("/comment/delete", (req, res) => {
     return;
   }
   commentCtrl.deleteComment(id, res);
+});
+
+//rate
+router.get("/rate/:movieID/:userID", (req, res) => {
+  const movie_id = req.params.movieID;
+  const user_id = req.params.userID;
+  if (!user_id || !Number(user_id) || !movie_id || !Number(movie_id)) {
+    res.status(400);
+    res.end();
+    return;
+  }
+  rateMovieCtrl.getUserRate({ movie_id, user_id }, res);
+});
+
+router.get("/rate/movie-rate/:movieID", (req, res) => {
+  const movie_id = req.params.movieID;
+  if (!movie_id || !Number(movie_id)) {
+    res.status(400);
+    res.end();
+    return;
+  }
+  rateMovieCtrl.getMovieRate(movieID, res);
+});
+
+router.post("/rate/add", (req, res) => {
+  rateMovieCtrl.addRate(req.body, res);
+});
+
+router.put("/rate/update", (req, res) => {
+  rateMovieCtrl.updateRate(req.body, res);
+});
+
+router.delete("/rate/:movieID/:userID", (req, res) => {
+  rateMovieCtrl.deleteRate(req.body, res);
 });
 
 module.exports = router;

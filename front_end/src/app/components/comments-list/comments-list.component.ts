@@ -9,7 +9,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Movie, movieInitValues } from 'src/app/models/Movie';
 
 interface CommentExtended extends Comment {
-  show: boolean;
+  showEdit: boolean;
+  showReply: boolean;
 }
 
 @Component({
@@ -18,7 +19,8 @@ interface CommentExtended extends Comment {
   styleUrls: ['./comments-list.component.css'],
 })
 export class CommentsListComponent implements OnInit {
-  @Input() comments: CommentExtended[] = [];
+  comments: CommentExtended[] = [];
+  commentsTree: any[] = [];
   @Input() movie: Movie = movieInitValues();
   user: User = {};
   subscriptions: Subscription[] = [];
@@ -32,6 +34,7 @@ export class CommentsListComponent implements OnInit {
     this._commentService.getAllMovieComments(Number(this.movie.id)).subscribe(
       (comments: Comment[]) => {
         this.comments = <CommentExtended[]>comments;
+        this.commentsTree = this.arrayToTree(this.comments);
       },
       (error) => {
         console.log(error);
@@ -50,19 +53,19 @@ export class CommentsListComponent implements OnInit {
   }
 
   edit(comment: CommentExtended) {
-    comment.show = true;
+    comment.showEdit = true;
   }
 
   updateComment(comment: Comment) {
     const c = this.comments.find((c) => c.id === comment.id);
     if (c) {
       c.content = comment.content;
-      c.show = false;
+      c.showEdit = false;
     }
   }
 
   addComment(comment: Comment) {
-    this.comments.push({ ...comment, show: false });
+    this.comments.push({ ...comment, showEdit: false, showReply: false });
   }
 
   delete(id: number) {
@@ -103,6 +106,29 @@ export class CommentsListComponent implements OnInit {
       return Math.floor(interval) + ' minutes ago';
     }
     return Math.floor(seconds) + ' seconds ago';
+  }
+
+  arrayToTree(arr: any[]): any[] {
+    let map: any = {},
+      node,
+      roots = [],
+      i;
+
+    for (i = 0; i < arr.length; i += 1) {
+      map[arr[i].id] = i; // initialize the map
+      arr[i].children = []; // initialize the children
+    }
+
+    for (i = 0; i < arr.length; i += 1) {
+      node = arr[i];
+      if (node.parent_id !== null) {
+        // if you have dangling branches check that map[node.parentId] exists
+        arr[map[node.parent_id]].children.push(node);
+      } else {
+        roots.push(node);
+      }
+    }
+    return roots;
   }
 
   ngOnDestroy(): void {

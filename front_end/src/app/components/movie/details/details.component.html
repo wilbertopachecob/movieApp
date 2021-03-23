@@ -17,7 +17,7 @@
     <img [src]="movie.poster" [alt]="movie.title" class="float-left mr-2" />
     <p>{{ movie.plot }}</p>
     <div class="clearfix"></div>
-    <app-rate-movie></app-rate-movie>
+    <app-rate-movie [movie]="movie"></app-rate-movie>
     <div class="clearfix"></div>
     <div class="comments-container">
       <app-comments-list [movie]="movie"></app-comments-list>

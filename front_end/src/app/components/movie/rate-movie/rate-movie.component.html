@@ -1,15 +1,16 @@
 <div class="container">
-  <h4>{{ currentRate }}</h4>
+  <h4>{{ rateText }}</h4>
   <div class="rate">
-    <input type="radio" id="star5" name="rate" value="5" #inputRate />
-    <label for="star5" title="text">5 stars</label>
-    <input type="radio" id="star4" name="rate" value="4" #inputRate />
-    <label for="star4" title="text">4 stars</label>
-    <input type="radio" id="star3" name="rate" value="3" #inputRate />
-    <label for="star3" title="text">3 stars</label>
-    <input type="radio" id="star2" name="rate" value="2" #inputRate />
-    <label for="star2" title="text">2 stars</label>
-    <input type="radio" id="star1" name="rate" value="1" #inputRate />
-    <label for="star1" title="text">1 star</label>
+    <ng-container *ngFor="let rate of rates">
+      <input
+        type="radio"
+        [id]="'start' + rate.value"
+        name="rate"
+        [value]="5"
+        [checked]="rate.checked"
+        (change)="rateMovie(rate)"
+      />
+      <label [for]="'start' + rate.value" title="text"></label>
+    </ng-container>
   </div>
 </div>
