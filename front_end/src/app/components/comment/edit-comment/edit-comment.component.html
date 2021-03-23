@@ -1,0 +1,27 @@
+<form action="" method="post" (submit)="edit(f)" #f="ngForm">
+  <div class="mb-3">
+    <label for="validationTextarea" class="form-label">Comment</label>
+    <textarea
+      [ngModel]="comment.content"
+      #content="ngModel"
+      class="form-control"
+      [class.is-invalid]="content.invalid && content.touched"
+      id="validationTextarea"
+      placeholder="Write Comment"
+      name="content"
+      required
+    ></textarea>
+    <div
+      class="invalid-feedback d-block"
+      *ngIf="content.invalid && content.touched"
+    >
+      The username can not be empty.
+    </div>
+  </div>
+  <div class="mb-3">
+    <button class="btn btn-primary" type="submit" name="btn-submit">
+      <i class="fas fa-save"></i>
+      Submit
+    </button>
+  </div>
+</form>

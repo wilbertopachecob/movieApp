@@ -10,11 +10,13 @@ import { catchError } from 'rxjs/operators';
 
 import { Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { User } from '../models/User';
+import { AppStoreService } from '../app-store.service';
 
 /** Pass untouched request through to the next request handler. */
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-  constructor(private _router: Router) {}
+  constructor(private _router: Router, private _store: AppStoreService) {}
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
@@ -40,6 +42,16 @@ export class TokenInterceptor implements HttpInterceptor {
   }
 
   handle403Error() {
+    const defaultUser: User = {
+      id: 0,
+      name: 'Anonymous',
+      role_id: 2,
+      email: '',
+    };
+    this._store.setUser(defaultUser);
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+
     this._router.navigate(['/login']);
   }
 }

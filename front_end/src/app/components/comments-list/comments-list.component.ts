@@ -6,6 +6,11 @@ import { User } from 'src/app/models/User';
 import { AppStoreService } from 'src/app/app-store.service';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
+import { Movie, movieInitValues } from 'src/app/models/Movie';
+
+interface CommentExtended extends Comment {
+  show: boolean;
+}
 
 @Component({
   selector: 'app-comments-list',
@@ -13,29 +18,30 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./comments-list.component.css'],
 })
 export class CommentsListComponent implements OnInit {
-  @Input() comments: Comment[] = [];
+  @Input() comments: CommentExtended[] = [];
+  @Input() movie: Movie = movieInitValues();
   user: User = {};
   subscriptions: Subscription[] = [];
   constructor(
-    private commentService: CommentService,
+    private _commentService: CommentService,
     private _store: AppStoreService,
     private _auth: AuthService
   ) {}
 
   ngOnInit(): void {
+    this._commentService.getAllMovieComments(Number(this.movie.id)).subscribe(
+      (comments: Comment[]) => {
+        this.comments = <CommentExtended[]>comments;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
     this.subscriptions.push(
       this._store.user$.subscribe((u: User) => {
         this.user = u;
       })
-    );
-  }
-  update(comment: Comment) {
-    const data: Comment = { content: '' };
-    this.commentService.updateComment(data).subscribe(
-      (_) => {},
-      (error) => {
-        console.log(error);
-      }
     );
   }
 
@@ -43,11 +49,25 @@ export class CommentsListComponent implements OnInit {
     return this.user.id === userID || this._auth.isAdmin();
   }
 
-  edit(content: string) {}
+  edit(comment: CommentExtended) {
+    comment.show = true;
+  }
+
+  updateComment(comment: Comment) {
+    const c = this.comments.find((c) => c.id === comment.id);
+    if (c) {
+      c.content = comment.content;
+      c.show = false;
+    }
+  }
+
+  addComment(comment: Comment) {
+    this.comments.push({ ...comment, show: false });
+  }
 
   delete(id: number) {
     if (confirm('Are you sure you want to delete this comment.')) {
-      this.commentService.deleteComment(id).subscribe(
+      this._commentService.deleteComment(id).subscribe(
         (_) => {
           this.comments = this.comments.filter((c) => c.id !== id);
         },

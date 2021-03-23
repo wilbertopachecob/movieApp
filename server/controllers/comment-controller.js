@@ -1,16 +1,6 @@
 const commentCtrl = {},
   db = require("../db/db");
 
-commentCtrl.addComment = (data, res) => {
-  let sql = "INSERT INTO comments SET ?";
-  db.query(sql, data, (err, info) => {
-    if (err) {
-      throw err;
-    }
-    commentCtrl.getComment(info.insertId, res);
-  });
-};
-
 commentCtrl.getComments = (movieID, res) => {
   let sql = `SELECT 
   c.content,  
@@ -46,6 +36,32 @@ commentCtrl.getComment = (commentID, res) => {
     }
     res.json(results[0]);
   });
+};
+
+commentCtrl.addComment = (data, res) => {
+  let sql = "INSERT INTO comments SET ?";
+  db.query(sql, data, (err, info) => {
+    if (err) {
+      throw err;
+    }
+    commentCtrl.getComment(info.insertId, res);
+  });
+};
+
+commentCtrl.updateComment = (comment, res) => {
+  let sql = "UPDATE comments SET content = ? WHERE id = ?";
+  if (Number(comment.id) && comment.content) {
+    db.query(sql, [comment.content, comment.id], (err, _) => {
+      if (err) {
+        throw err;
+      }
+      res.json({ status: "success", msg: "Comment updated successfully" });
+    });
+    return;
+  }
+  res.status(400);
+  res.end();
+  return;
 };
 
 commentCtrl.deleteComment = (id, res) => {

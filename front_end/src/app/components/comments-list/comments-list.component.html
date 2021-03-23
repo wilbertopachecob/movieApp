@@ -28,7 +28,7 @@
       <ng-container *ngIf="canManage(comment.user_id!)">
         <small (click)="delete(comment.id!)">Delete</small>
         <span class="dots ml-1"></span>
-        <small class="ml-1" (click)="edit(comment.content)">Edit</small>
+        <small class="ml-1" (click)="edit(comment)">Edit</small>
         <span class="dots ml-1"></span>
       </ng-container>
       <small class="ml-1">Reply</small>
@@ -39,4 +39,12 @@
       <i class="fa fa-check-circle-o check-icon"></i>
     </div>
   </div>
+  <div class="clearfix"></div>
+  <app-edit-comment
+    [comment]="comment"
+    *ngIf="comment.show"
+    (updateC)="updateComment($event)"
+  ></app-edit-comment>
 </div>
+
+<app-add-comment (addC)="addComment($event)" [movie]="movie"></app-add-comment>

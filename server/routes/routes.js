@@ -86,6 +86,10 @@ router.post("/comment/add", (req, res) => {
   commentCtrl.addComment(req.body, res);
 });
 
+router.put("/comment/update", (req, res) => {
+  commentCtrl.updateComment(req.body, res);
+});
+
 router.get("/comment/all", (req, res) => {
   commentCtrl.getComments(req.query.movieID, res);
 });

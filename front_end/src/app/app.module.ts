@@ -11,12 +11,13 @@ import { AddComponent } from './components/movie/add/add.component';
 import { MovieComponent } from './components/movie/movie.component';
 import { RateMovieComponent } from './components/movie/rate-movie/rate-movie.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { CommentComponent } from './components/comment/comment.component';
+import { AddCommentComponent } from './components/comment/add-comment/add-comment.component';
 import { LoginComponent } from './components/login/login.component';
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './components/home/home.component';
 import { CommentsListComponent } from './components/comments-list/comments-list.component';
 import { httpInterceptorProviders } from './http_interceptors';
+import { EditCommentComponent } from './components/comment/edit-comment/edit-comment.component';
 
 @NgModule({
   declarations: [
@@ -27,10 +28,11 @@ import { httpInterceptorProviders } from './http_interceptors';
     AddComponent,
     MovieComponent,
     RateMovieComponent,
-    CommentComponent,
+    AddCommentComponent,
     LoginComponent,
     HomeComponent,
     CommentsListComponent,
+    EditCommentComponent,
   ],
   imports: [
     BrowserModule,

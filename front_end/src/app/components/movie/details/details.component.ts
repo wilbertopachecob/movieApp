@@ -7,12 +7,8 @@ import {
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
-import { Comment } from 'src/app/models/Comment';
-import { Movie } from 'src/app/models/Movie';
-import { CommentService } from 'src/app/services/comment.service';
+import { Movie, movieInitValues } from 'src/app/models/Movie';
 import { MovieService } from 'src/app/services/movie.service';
-import { MovieEventsService } from '../movie-events.service';
 
 @Component({
   selector: 'app-details',
@@ -21,57 +17,21 @@ import { MovieEventsService } from '../movie-events.service';
 })
 export class DetailsComponent implements OnInit {
   @ViewChild('content') content: TemplateRef<any> | undefined;
-  @Input() movie: Movie = {
-    title: '',
-    plot: '',
-    cast: '',
-    genre: '',
-    released: '2021',
-    language: '',
-    director: '',
-    id: 0,
-    ratings: [0, 1, 2, 3, 4],
-  };
-  comments: Comment[] = [];
+  @Input() movie: Movie = movieInitValues();
   subscriptions: Subscription[] = [];
 
   constructor(
     private _modalService: NgbModal,
-    private _commentService: CommentService,
-    private _movieService: MovieService,
-    private _movieEvents: MovieEventsService
+    private _movieService: MovieService
   ) {}
 
-  ngOnInit(): void {
-    //listening to new comments and updating the comments array
-    this.subscriptions.push(
-      this._movieEvents
-        .getActionAddCommentSubscription()
-        .pipe(
-          filter((comment: Comment) => {
-            return this.movie.id === comment.movie_id;
-          })
-        )
-        .subscribe((comment: Comment) => {
-          this.addComment(comment);
-        })
-    );
-  }
+  ngOnInit(): void {}
   closeModal() {
     (document.querySelector('#close_modal') as HTMLButtonElement).click();
   }
 
   openModal() {
     if (this.movie.id) {
-      this._commentService.getAllMovieComments(Number(this.movie.id)).subscribe(
-        (comments: Comment[]) => {
-          this.comments = comments;
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-
       this._movieService.getMovieById(this.movie.id).subscribe(
         (movie: Movie) => {
           this.movie = movie;
@@ -84,16 +44,6 @@ export class DetailsComponent implements OnInit {
     this._modalService.open(this.content, { size: 'xl' });
   }
 
-  getAllComments() {
-    this._commentService.getAllMovieComments(Number(this.movie.id)).subscribe(
-      (res) => {
-        this.comments = res;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
   calculateRating(): number {
     //calculating weightedAVG
     let total: number = 0;
@@ -105,12 +55,7 @@ export class DetailsComponent implements OnInit {
     }
     return total && weighted ? weighted / total : 0;
   }
-  addComment(comment: Comment) {
-    console.log({ comment });
 
-    this.comments.push(comment);
-    console.log(this.comments);
-  }
   ngOnDestroy(): void {
     this.subscriptions.forEach((s) => s.unsubscribe());
   }
