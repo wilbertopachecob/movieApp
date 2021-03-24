@@ -17,8 +17,6 @@ app.use(express.json());
 
 app.use(router);
 
-const PORT = 3000;
-
-app.listen(PORT, function () {
-  console.log("Server running on port: ", PORT);
+app.listen(process.env.PORT, function () {
+  console.log("Server running on port: ", process.env.PORT);
 });

@@ -11,6 +11,7 @@ import { Movie, movieInitValues } from 'src/app/models/Movie';
 interface CommentExtended extends Comment {
   showEdit: boolean;
   showReply: boolean;
+  children: [];
 }
 
 @Component({
@@ -56,6 +57,10 @@ export class CommentsListComponent implements OnInit {
     comment.showEdit = true;
   }
 
+  reply(comment: CommentExtended) {
+    comment.showReply = true;
+  }
+
   updateComment(comment: Comment) {
     const c = this.comments.find((c) => c.id === comment.id);
     if (c) {
@@ -64,15 +69,34 @@ export class CommentsListComponent implements OnInit {
     }
   }
 
+  addReply(parent: CommentExtended, comment: Comment) {
+    parent.showReply = false;
+    this.comments.push({
+      ...comment,
+      children: [],
+      showEdit: false,
+      showReply: false,
+    });
+
+    this.commentsTree = this.arrayToTree(this.comments);
+  }
+
   addComment(comment: Comment) {
-    this.comments.push({ ...comment, showEdit: false, showReply: false });
+    this.commentsTree.push({
+      ...comment,
+      children: [],
+      showEdit: false,
+      showReply: false,
+    });
   }
 
   delete(id: number) {
     if (confirm('Are you sure you want to delete this comment.')) {
       this._commentService.deleteComment(id).subscribe(
         (_) => {
+          //need to find a better way to do this
           this.comments = this.comments.filter((c) => c.id !== id);
+          this.commentsTree = this.arrayToTree(this.comments);
         },
         (error) => {
           console.log(error);

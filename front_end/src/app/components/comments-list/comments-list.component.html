@@ -32,7 +32,7 @@
           <small class="ml-1" (click)="edit(comment)">Edit</small>
           <span class="dots ml-1"></span>
         </ng-container>
-        <small class="ml-1">Reply</small>
+        <small class="ml-1" (click)="reply(comment)">Reply</small>
       </div>
 
       <div class="icons align-items-center">
@@ -45,6 +45,12 @@
       *ngIf="comment.showEdit"
       (updateC)="updateComment($event)"
     ></app-edit-comment>
+    <app-add-comment
+      *ngIf="comment.showReply"
+      [parent_id]="comment.id"
+      (addC)="addReply(comment, $event)"
+      [movie]="movie"
+    ></app-add-comment>
     <div *ngIf="comment.children.length > 0">
       <ng-container
         *ngTemplateOutlet="

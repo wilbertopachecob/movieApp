@@ -75,8 +75,7 @@ router.delete("/movie/delete", (req, res) => {
 router.get("/movie/:movieID", (req, res) => {
   const id = req.params.movieID;
   if (!id || !Number(id)) {
-    res.status(400);
-    res.end();
+    res.status(400).end();
     return;
   }
   movieCtrl.getMovieByID(id, res);
@@ -98,8 +97,7 @@ router.get("/comment/all", (req, res) => {
 router.delete("/comment/delete", (req, res) => {
   const id = req.query.id;
   if (!id || !Number(id)) {
-    res.status(400);
-    res.end();
+    res.status(400).end();
     return;
   }
   commentCtrl.deleteComment(id, res);
@@ -110,8 +108,7 @@ router.get("/rate/:movieID/:userID", (req, res) => {
   const movie_id = req.params.movieID;
   const user_id = req.params.userID;
   if (!user_id || !Number(user_id) || !movie_id || !Number(movie_id)) {
-    res.status(400);
-    res.end();
+    res.status(400).end();
     return;
   }
   rateMovieCtrl.getUserRate({ movie_id, user_id }, res);
@@ -120,8 +117,7 @@ router.get("/rate/:movieID/:userID", (req, res) => {
 router.get("/rate/movie-rate/:movieID", (req, res) => {
   const movie_id = req.params.movieID;
   if (!movie_id || !Number(movie_id)) {
-    res.status(400);
-    res.end();
+    res.status(400).end();
     return;
   }
   rateMovieCtrl.getMovieRate(movieID, res);

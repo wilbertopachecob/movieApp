@@ -7,7 +7,6 @@ import { Comment } from 'src/app/models/Comment';
 import { Movie, movieInitValues } from 'src/app/models/Movie';
 import { AuthService } from 'src/app/services/auth.service';
 import { CommentService } from 'src/app/services/comment.service';
-import { MovieEventsService } from '../../movie/movie-events.service';
 
 @Component({
   selector: 'app-add-comment',
@@ -17,6 +16,7 @@ import { MovieEventsService } from '../../movie/movie-events.service';
 export class AddCommentComponent implements OnInit {
   commentContent: string = '';
   @Input() movie: Movie = movieInitValues();
+  @Input() parent_id: number | null = null;
   @Output() addC = new EventEmitter<Comment>();
   constructor(
     private _commentService: CommentService,
@@ -34,6 +34,7 @@ export class AddCommentComponent implements OnInit {
           content: this.commentContent,
           user_id: this._store.getUser().id,
           movie_id: this.movie.id,
+          ...(this.parent_id ? { parent_id: this.parent_id } : {}),
         };
 
         this._commentService.addComment(data).subscribe(
