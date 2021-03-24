@@ -24,7 +24,6 @@ rateMovieCtrl.deleteRate = (data, res) => {
 rateMovieCtrl.getUserRate = (data, res) => {
   let sql =
     "SELECT id, rating_id FROM movie_ratings WHERE movie_id = ? AND user_id = ? LIMIT 1";
-  console.log({ sql, data });
   db.query(sql, [data.movie_id, data.user_id], (err, result) => {
     if (err) {
       throw err;

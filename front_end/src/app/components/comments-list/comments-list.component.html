@@ -3,7 +3,7 @@
 ></ng-container>
 
 <ng-template #recursiveListTmpl let-list="list">
-  <div *ngFor="let comment of list" class="card p-3">
+  <div *ngFor="let comment of list" class="card p-3 mt-1">
     <div class="d-flex justify-content-between align-items-center">
       <div class="user d-flex flex-row align-items-center">
         <div
@@ -51,14 +51,30 @@
       (addC)="addReply(comment, $event)"
       [movie]="movie"
     ></app-add-comment>
+
     <div *ngIf="comment.children.length > 0">
-      <ng-container
-        *ngTemplateOutlet="
-          recursiveListTmpl;
-          context: { list: comment.children }
-        "
+      <a
+        href=""
+        style="text-decoration: none"
+        (click)="toggleReplies($event, comment)"
+        ><i
+          class="fas fa-caret-down"
+          [ngClass]="comment.showReplies ? 'fa-caret-up' : 'fa-caret-down'"
+        ></i>
+        {{ comment.showReplies ? "Hide" : "View" }}
+        {{ comment.children.length }} repl{{
+          comment.children.length === 1 ? "y" : "ies"
+        }}</a
       >
-      </ng-container>
+      <div *ngIf="comment.showReplies">
+        <ng-container
+          *ngTemplateOutlet="
+            recursiveListTmpl;
+            context: { list: comment.children }
+          "
+        >
+        </ng-container>
+      </div>
     </div>
   </div>
 </ng-template>

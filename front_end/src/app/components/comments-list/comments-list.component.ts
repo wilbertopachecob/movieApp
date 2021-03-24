@@ -11,6 +11,7 @@ import { Movie, movieInitValues } from 'src/app/models/Movie';
 interface CommentExtended extends Comment {
   showEdit: boolean;
   showReply: boolean;
+  showReplies: boolean;
   children: [];
 }
 
@@ -76,9 +77,15 @@ export class CommentsListComponent implements OnInit {
       children: [],
       showEdit: false,
       showReply: false,
+      showReplies: false,
     });
 
     this.commentsTree = this.arrayToTree(this.comments);
+  }
+
+  toggleReplies(e: Event, comment: CommentExtended) {
+    e.preventDefault();
+    comment.showReplies = !comment.showReplies;
   }
 
   addComment(comment: Comment) {
