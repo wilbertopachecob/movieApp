@@ -18,6 +18,7 @@ import { HomeComponent } from './components/home/home.component';
 import { CommentsListComponent } from './components/comments-list/comments-list.component';
 import { httpInterceptorProviders } from './http_interceptors';
 import { EditCommentComponent } from './components/comment/edit-comment/edit-comment.component';
+import { CommentLikesComponent } from './components/comment/comment-likes/comment-likes.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { EditCommentComponent } from './components/comment/edit-comment/edit-com
     HomeComponent,
     CommentsListComponent,
     EditCommentComponent,
+    CommentLikesComponent,
   ],
   imports: [
     BrowserModule,

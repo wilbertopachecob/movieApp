@@ -1,0 +1,30 @@
+<div class="icons align-items-center">
+  <table>
+    <tbody>
+      <tr>
+        <td>
+          <i
+            [ngClass]="
+              likeState === 1 ? 'fas fa-thumbs-up' : 'far fa-thumbs-up'
+            "
+            style="cursor: pointer"
+            (click)="like(1)"
+          ></i>
+        </td>
+        <td>
+          <i
+            [ngClass]="
+              likeState === 0 ? 'fas fa-thumbs-down' : 'far fa-thumbs-down'
+            "
+            style="cursor: pointer"
+            (click)="like(0)"
+          ></i>
+        </td>
+      </tr>
+      <tr>
+        <td>{{ comment.likes || 0 }}</td>
+        <td>{{ comment.dislikes || 0 }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

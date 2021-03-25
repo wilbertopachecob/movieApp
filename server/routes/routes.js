@@ -5,6 +5,7 @@ const express = require("express"),
   movieCtrl = require("../controllers/movie-controller"),
   commentCtrl = require("../controllers/comment-controller"),
   rateMovieCtrl = require("../controllers/rate-movie-controller"),
+  commentLikesCtrl = require("../controllers/comment-likes-controller"),
   auth = require("../controllers/auth-controller");
 
 const adminMiddlewares = [
@@ -21,8 +22,7 @@ router.get("/", (req, res) => {
 router.post("/login", (req, res) => {
   let user = req.body;
   if (!user.password || !user.email) {
-    res.status(400);
-    res.end();
+    res.status(400).end();
     return;
   }
   loginCtrl.login(user, res);
@@ -64,9 +64,8 @@ router.put("/movie/update", (req, res) => {
 
 router.delete("/movie/delete", (req, res) => {
   const id = req.query.id;
-  if (!id || !Number(id)) {
-    res.status(400);
-    res.end();
+  if (!Number(id)) {
+    res.status(400).end();
     return;
   }
   movieCtrl.deleteMovie(id, res);
@@ -74,7 +73,7 @@ router.delete("/movie/delete", (req, res) => {
 
 router.get("/movie/:movieID", (req, res) => {
   const id = req.params.movieID;
-  if (!id || !Number(id)) {
+  if (!Number(id)) {
     res.status(400).end();
     return;
   }
@@ -96,7 +95,7 @@ router.get("/comment/all", (req, res) => {
 
 router.delete("/comment/delete", (req, res) => {
   const id = req.query.id;
-  if (!id || !Number(id)) {
+  if (!Number(id)) {
     res.status(400).end();
     return;
   }
@@ -133,6 +132,38 @@ router.put("/rate/update", (req, res) => {
 
 router.delete("/rate/:movieID/:userID", (req, res) => {
   rateMovieCtrl.deleteRate(req.body, res);
+});
+
+//comment_like
+router.get("/comment_likes/:movieID/:userID", (req, res) => {
+  const movie_id = req.params.movieID;
+  const user_id = req.params.userID;
+  if (!Number(movie_id) || !Number(user_id)) {
+    res.status(400).end();
+    return;
+  }
+  commentLikesCtrl.getUserMovieCommentLike({ movie_id, user_id }, res);
+});
+
+router.post("/comment_likes/add", (req, res) => {
+  commentLikesCtrl.addCommentLike(req.body, res);
+});
+
+router.put("/comment_likes/remove", (req, res) => {
+  if (!Number(req.body.id)) {
+    res.status(400).end();
+    return;
+  }
+  commentLikesCtrl.removeLike(req.body.id, res);
+});
+
+router.delete("/comment_likes/delete", (req, res) => {
+  const id = req.query.id;
+  if (!Number(req.body.id)) {
+    res.status(400).end();
+    return;
+  }
+  commentLikesCtrl.deleteRate(id, res);
 });
 
 module.exports = router;

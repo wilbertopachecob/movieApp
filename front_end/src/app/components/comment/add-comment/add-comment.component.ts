@@ -28,30 +28,30 @@ export class AddCommentComponent implements OnInit {
 
   ngOnInit(): void {}
   addComment(form: NgForm) {
-    if (this._auth.isLoggedIn()) {
-      if (form.valid) {
-        const data: Comment = {
-          content: this.commentContent,
-          user_id: this._store.getUser().id,
-          movie_id: this.movie.id,
-          ...(this.parent_id ? { parent_id: this.parent_id } : {}),
-        };
-
-        this._commentService.addComment(data).subscribe(
-          (comment: Comment) => {
-            this.commentContent = '';
-            this.addC.emit(comment);
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
-      }
-    } else {
+    if (!this._auth.isLoggedIn()) {
       //closing all open modals before redirectiong
       this._modalService.dismissAll('Redirecting to log in');
-
       this._router.navigate(['/login']);
+      return;
+    }
+
+    if (form.valid) {
+      const data: Comment = {
+        content: this.commentContent,
+        user_id: this._store.getUser().id,
+        movie_id: this.movie.id,
+        ...(this.parent_id ? { parent_id: this.parent_id } : {}),
+      };
+
+      this._commentService.addComment(data).subscribe(
+        (comment: Comment) => {
+          this.commentContent = '';
+          this.addC.emit(comment);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     }
   }
 }

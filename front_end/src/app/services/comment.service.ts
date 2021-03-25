@@ -8,26 +8,26 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class CommentService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(private _httpClient: HttpClient) {}
 
   getAllMovieComments(id: number): Observable<Comment[]> {
-    return this.httpClient.get<Comment[]>(
+    return this._httpClient.get<Comment[]>(
       `${environment.apiURL}/comment/all?movieID=${id}`
     );
   }
 
   deleteComment(id: number) {
-    return this.httpClient.delete(
+    return this._httpClient.delete(
       `${environment.apiURL}/comment/delete?id=${id}`
     );
   }
 
   updateComment(data: Comment) {
-    return this.httpClient.put(`${environment.apiURL}/comment/update`, data);
+    return this._httpClient.put(`${environment.apiURL}/comment/update`, data);
   }
 
   addComment(data: Comment): Observable<Comment> {
-    return this.httpClient.post<Comment>(
+    return this._httpClient.post<Comment>(
       `${environment.apiURL}/comment/add`,
       data
     );

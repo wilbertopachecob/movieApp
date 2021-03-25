@@ -9,7 +9,16 @@ commentCtrl.getComments = (movieID, res) => {
   c.user_id, 
   c.parent_id,   
   c.updated_at,
-  u.name AS user_name FROM comments c LEFT JOIN users u ON c.user_id = u.id WHERE c.movie_id = ?`;
+  u.name AS user_name,
+  COALESCE((SELECT	
+    SUM(CASE WHEN comment_like = 1 THEN 1 ELSE 0 END)    
+  FROM comment_likes WHERE comment_likes.comment_id = c.id), 0) AS likes,
+   COALESCE((SELECT	
+    SUM(CASE WHEN comment_like = 0 THEN 1 ELSE 0 END)    
+  FROM comment_likes WHERE comment_likes.comment_id = c.id), 0) AS dislikes
+  FROM comments c 
+  LEFT JOIN users u ON c.user_id = u.id
+  WHERE c.movie_id = ?`;
 
   db.query(sql, movieID, (err, results) => {
     if (err) {
