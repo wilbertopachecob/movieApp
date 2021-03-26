@@ -3,8 +3,13 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppStoreService } from 'src/app/app-store.service';
 import { Comment } from 'src/app/models/Comment';
+import { CommentLike } from 'src/app/models/CommentLike';
 import { AuthService } from 'src/app/services/auth.service';
 import { CommentLikesService } from 'src/app/services/comment-likes.service';
+
+interface CommentLikeExtended extends Comment {
+  commentLike: CommentLike | null;
+}
 
 @Component({
   selector: 'app-comment-likes',
@@ -12,16 +17,28 @@ import { CommentLikesService } from 'src/app/services/comment-likes.service';
   styleUrls: ['./comment-likes.component.css'],
 })
 export class CommentLikesComponent implements OnInit {
-  @Input() comment: Partial<Comment> = {};
   commentLikeID: number = 0;
   likeState: 0 | 1 | null = null;
 
+  private _comment: Partial<CommentLikeExtended> = {};
+  @Input()
+  get comment(): Partial<CommentLikeExtended> {
+    return this._comment;
+  }
+  set comment(val: Partial<CommentLikeExtended>) {
+    this._comment = val;
+    if (val.commentLike) {
+      this.commentLikeID = val.commentLike.id;
+      this.likeState = val.commentLike.comment_like;
+    }
+  }
+
   constructor(
-    private _commentLS: CommentLikesService,
-    private _store: AppStoreService,
-    private _router: Router,
+    private _modalService: NgbModal,
     private _auth: AuthService,
-    private _modalService: NgbModal
+    private _router: Router,
+    private _store: AppStoreService,
+    private _commentLS: CommentLikesService
   ) {}
 
   ngOnInit(): void {}
@@ -35,17 +52,13 @@ export class CommentLikesComponent implements OnInit {
     }
 
     if (this.likeState === like) {
-      this.removeLike();
+      this.removeLike(like);
       return;
     }
 
     this.likeState = like;
 
-    if (like === 1) {
-      this.comment.likes! += 1;
-    } else if (this.comment.dislikes! > 0) {
-      this.comment.dislikes! -= 1;
-    }
+    this.comment[like === 1 ? 'likes' : 'dislikes']! += 1;
 
     const data = {
       comment_like: like,
@@ -63,7 +76,9 @@ export class CommentLikesComponent implements OnInit {
     );
   }
 
-  removeLike() {
+  removeLike(like: 0 | 1) {
+    this.comment[like === 1 ? 'likes' : 'dislikes']! -= 1;
+
     this.likeState = null;
     if (this.commentLikeID) {
       this._commentLS.removeLike({ id: this.commentLikeID }).subscribe(

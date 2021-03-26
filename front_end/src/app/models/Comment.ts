@@ -10,3 +10,18 @@ export interface Comment {
   likes?: number;
   dislikes?: number;
 }
+
+export function commentInitValues(): Comment {
+  return {
+    id: 0,
+    user_id: 0,
+    content: '',
+    parent_id: 0,
+    movie_id: 0,
+    created_at: '',
+    updated_at: '',
+    user_name: '',
+    likes: 0,
+    dislikes: 0,
+  };
+}

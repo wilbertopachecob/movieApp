@@ -4,9 +4,11 @@ import { CommentService } from 'src/app/services/comment.service';
 import * as moment from 'moment';
 import { User } from 'src/app/models/User';
 import { AppStoreService } from 'src/app/app-store.service';
-import { Subscription } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { Movie, movieInitValues } from 'src/app/models/Movie';
+import { CommentLikesService } from 'src/app/services/comment-likes.service';
+import { CommentLike, commentLikeInitValues } from 'src/app/models/CommentLike';
 
 interface CommentExtended extends Comment {
   showEdit: boolean;
@@ -23,30 +25,44 @@ interface CommentExtended extends Comment {
 export class CommentsListComponent implements OnInit {
   comments: CommentExtended[] = [];
   commentsTree: any[] = [];
+  userComments: any[] = [];
   @Input() movie: Movie = movieInitValues();
   user: User = {};
   subscriptions: Subscription[] = [];
   constructor(
     private _commentService: CommentService,
     private _store: AppStoreService,
-    private _auth: AuthService
+    private _auth: AuthService,
+    private _commentLS: CommentLikesService
   ) {}
 
   ngOnInit(): void {
-    this._commentService.getAllMovieComments(Number(this.movie.id)).subscribe(
-      (comments: Comment[]) => {
-        this.comments = <CommentExtended[]>comments;
-        this.commentsTree = this.arrayToTree(this.comments);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-
     this.subscriptions.push(
       this._store.user$.subscribe((u: User) => {
         this.user = u;
       })
+    );
+
+    forkJoin([
+      this._commentService.getAllMovieComments(Number(this.movie.id)),
+      this._commentLS.getUserMovieCommentLike(this.movie.id!, this.user.id!),
+    ]).subscribe(
+      ([comments, commentLikes]: [Comment[], CommentLike[]]) => {
+        this.comments = <CommentExtended[]>comments;
+        let combined: any[] = [];
+
+        for (let i = 0; i < comments.length; i++) {
+          const cl = commentLikes.find((c) => c.comment_id === comments[i].id);
+          combined.push({
+            ...comments[i],
+            commentLike: cl || null,
+          });
+        }
+        this.commentsTree = this.arrayToTree(combined);
+      },
+      (error) => {
+        console.log(error);
+      }
     );
   }
 

@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { CommentLike } from '../models/CommentLike';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +21,15 @@ export class CommentLikesService {
     return this._httpClient.put(
       `${environment.apiURL}/comment_likes/remove`,
       data
+    );
+  }
+
+  getUserMovieCommentLike(
+    movieID: number,
+    userID: number
+  ): Observable<CommentLike[]> {
+    return this._httpClient.get<CommentLike[]>(
+      `${environment.apiURL}/comment_likes/${movieID}/${userID}`
     );
   }
 }
