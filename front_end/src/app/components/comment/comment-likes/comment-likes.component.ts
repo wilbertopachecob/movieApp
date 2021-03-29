@@ -51,8 +51,8 @@ export class CommentLikesComponent implements OnInit {
       return;
     }
 
-    if (this.likeState === like) {
-      this.removeLike(like);
+    if (this.commentLikeID) {
+      this.updateLike(like);
       return;
     }
 
@@ -67,8 +67,8 @@ export class CommentLikesComponent implements OnInit {
       user_id: this._store.getUser().id,
     };
     this._commentLS.addLike(data).subscribe(
-      (res) => {
-        console.log(res);
+      (id: number) => {
+        this.commentLikeID = id;
       },
       (error) => {
         console.log(error);
@@ -76,17 +76,29 @@ export class CommentLikesComponent implements OnInit {
     );
   }
 
-  removeLike(like: 0 | 1) {
-    this.comment[like === 1 ? 'likes' : 'dislikes']! -= 1;
+  updateLike(like: 0 | 1) {
+    const selectedState = like === 1 ? 'likes' : 'dislikes';
+    const decrement = like === 1 ? 'dislikes' : 'likes';
+    if (this.likeState === like) {
+      this.likeState = null;
+      this.comment[selectedState]! -= 1;
+    } else {
+      this.likeState = like;
+      this.comment[selectedState]! += 1;
+      this.comment[decrement]! =
+        this.comment[decrement]! > 0 ? this.comment[decrement]! - 1 : 0;
+    }
 
-    this.likeState = null;
-    if (this.commentLikeID) {
-      this._commentLS.removeLike({ id: this.commentLikeID }).subscribe(
+    this._commentLS
+      .updateLike({
+        id: this.commentLikeID,
+        comment_like: this.likeState,
+      })
+      .subscribe(
         (_) => {},
         (error) => {
           console.log(error);
         }
       );
-    }
   }
 }

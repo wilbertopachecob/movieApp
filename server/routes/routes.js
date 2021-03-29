@@ -149,12 +149,12 @@ router.post("/comment_likes/add", (req, res) => {
   commentLikesCtrl.addCommentLike(req.body, res);
 });
 
-router.put("/comment_likes/remove", (req, res) => {
+router.put("/comment_likes/update", (req, res) => {
   if (!Number(req.body.id)) {
     res.status(400).end();
     return;
   }
-  commentLikesCtrl.removeLike(req.body.id, res);
+  commentLikesCtrl.updateCommentLike(req.body, res);
 });
 
 router.delete("/comment_likes/delete", (req, res) => {

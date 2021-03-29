@@ -1,14 +1,29 @@
 const commentLikesCtrl = {},
   db = require("../db/db");
 
+//returns the id of the inserted comment_like
 commentLikesCtrl.addCommentLike = (data, res) => {
   let sql = "INSERT INTO comment_likes SET ?";
-  db.query(sql, data, (err, _) => {
+  db.query(sql, data, (err, info) => {
     if (err) {
       throw err;
     }
-    res.json({ status: "success", msg: "Comment like added successfully" });
+    res.json(info.insertId);
   });
+};
+
+commentLikesCtrl.updateCommentLike = (data, res) => {
+  if ([0, 1, null].includes(data.comment_like)) {
+    data.comment_like = data.comment_like === null ? 2 : data.comment_like;
+    let sql =
+      "UPDATE comment_likes SET comment_like = NULLIF( ?, 2) WHERE id = ?";
+    db.query(sql, [data.comment_like, data.id], (err, _) => {
+      if (err) {
+        throw err;
+      }
+      res.json({ status: "success", msg: "Comment like added successfully" });
+    });
+  }
 };
 
 //sets the like to NULL, just so we can use this value for BI later

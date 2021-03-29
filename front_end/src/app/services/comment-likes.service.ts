@@ -11,15 +11,15 @@ export class CommentLikesService {
   constructor(private _httpClient: HttpClient) {}
 
   addLike(data: any) {
-    return this._httpClient.post(
+    return this._httpClient.post<number>(
       `${environment.apiURL}/comment_likes/add`,
       data
     );
   }
 
-  removeLike(data: any) {
+  updateLike(data: any) {
     return this._httpClient.put(
-      `${environment.apiURL}/comment_likes/remove`,
+      `${environment.apiURL}/comment_likes/update`,
       data
     );
   }
