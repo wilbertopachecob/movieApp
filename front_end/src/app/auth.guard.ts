@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { CanActivate, NavigationExtras, Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
 
 @Injectable({
@@ -11,7 +11,10 @@ export class AuthGuard implements CanActivate {
     if (this._auth.isLoggedIn() && this._auth.isAdmin()) {
       return true;
     }
-    this._router.navigate(['/login']);
+    const navigationExtras: NavigationExtras = {
+      state: { msg: 'You need to Log in to perform this action' },
+    };
+    this._router.navigate(['/login'], navigationExtras);
     return false;
   }
 }

@@ -17,7 +17,18 @@ export class LoginComponent implements OnInit {
     private _auth: AuthService,
     private _router: Router,
     private _store: AppStoreService
-  ) {}
+  ) {
+    const navigation = this._router.getCurrentNavigation();
+    if (navigation) {
+      const state = navigation.extras.state;
+      if (state) {
+        this.flashMSG = {
+          type: 'danger',
+          msg: state!.msg,
+        };
+      }
+    }
+  }
 
   ngOnInit(): void {}
 

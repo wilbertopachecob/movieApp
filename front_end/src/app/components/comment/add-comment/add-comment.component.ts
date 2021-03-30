@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppStoreService } from 'src/app/app-store.service';
 import { Comment } from 'src/app/models/Comment';
@@ -31,7 +31,10 @@ export class AddCommentComponent implements OnInit {
     if (!this._auth.isLoggedIn()) {
       //closing all open modals before redirectiong
       this._modalService.dismissAll('Redirecting to log in');
-      this._router.navigate(['/login']);
+      const navigationExtras: NavigationExtras = {
+        state: { msg: 'You need to Log in to perform this action' },
+      };
+      this._router.navigate(['/login'], navigationExtras);
       return;
     }
 

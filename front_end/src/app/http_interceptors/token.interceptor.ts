@@ -9,7 +9,7 @@ import {
 import { catchError } from 'rxjs/operators';
 
 import { Observable, throwError } from 'rxjs';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { User } from '../models/User';
 import { AppStoreService } from '../app-store.service';
 
@@ -52,6 +52,9 @@ export class TokenInterceptor implements HttpInterceptor {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
 
-    this._router.navigate(['/login']);
+    const navigationExtras: NavigationExtras = {
+      state: { msg: 'Your sesion has expired. Please Log in again' },
+    };
+    this._router.navigate(['/login'], navigationExtras);
   }
 }

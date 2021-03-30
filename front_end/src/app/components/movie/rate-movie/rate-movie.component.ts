@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { AppStoreService } from 'src/app/app-store.service';
@@ -106,7 +106,10 @@ export class RateMovieComponent implements OnInit {
       return;
     }
     this._modalService.dismissAll('Redirecting to log in');
-    this._router.navigate(['/login']);
+    const navigationExtras: NavigationExtras = {
+      state: { msg: 'You need to Log in to perform this action' },
+    };
+    this._router.navigate(['/login'], navigationExtras);
   }
 
   ngOnDestroy(): void {

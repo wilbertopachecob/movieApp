@@ -1,4 +1,4 @@
 /server/node_modules
-/server/public
+/server/public/*
 /server/.env
 /front_end/node_modules
