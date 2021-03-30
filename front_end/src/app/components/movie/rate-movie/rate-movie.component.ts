@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { AppStoreService } from 'src/app/app-store.service';
 import { Movie, movieInitValues } from 'src/app/models/Movie';
@@ -27,7 +29,9 @@ export class RateMovieComponent implements OnInit {
   constructor(
     private _rateService: RateMovieService,
     private _store: AppStoreService,
-    private _auth: AuthService
+    private _auth: AuthService,
+    private _router: Router,
+    private _modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -99,7 +103,10 @@ export class RateMovieComponent implements OnInit {
           }
         );
       }
+      return;
     }
+    this._modalService.dismissAll('Redirecting to log in');
+    this._router.navigate(['/login']);
   }
 
   ngOnDestroy(): void {
