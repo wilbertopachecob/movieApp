@@ -15,20 +15,16 @@ authCtrl.validateToken = (req, res, next) => {
     return res.status(401).send("Unauthorized request");
   }
 
-  const payload = jwt.verify(
-    token,
-    process.env.SECRET_TOKEN,
-    (err, payload) => {
-      if (err && err.name === "TokenExpiredError") {
-        return res.status(403).send("Forbidden request");
-      }
-      if (!payload) {
-        return res.status(401).send("Unauthorized request");
-      }
-      req.roleID = Number(payload.roleID);
-      next();
+  jwt.verify(token, process.env.SECRET_TOKEN, (err, payload) => {
+    if (err && err.name === "TokenExpiredError") {
+      return res.status(403).send("Forbidden request");
     }
-  );
+    if (!payload) {
+      return res.status(401).send("Unauthorized request");
+    }
+    req.roleID = Number(payload.roleID);
+    next();
+  });
 };
 
 authCtrl.validateAdmin = (req, res, next) => {

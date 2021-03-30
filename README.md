@@ -1,8 +1,8 @@
 # movieApp
 
-Nodejs, MYSQL, Angular app
+Nodejs, MYSQL, Angular app. The focus is functionality not appareance, so its not going to look like Netflix but it will work as well as it.
 
-## Create DB
+# Create and import DB
 
 Connect to your MYSQL Server and execute
 
@@ -16,7 +16,7 @@ Import file movies-app.sql into new created DB
 mysql -u username -p movies-app < movies-app.sql
 ```
 
-## Install Frontend
+# Generate Frontend
 
 From root
 
@@ -26,7 +26,7 @@ npm install
 npm run build
 ```
 
-## Install Backend
+# Run Backend
 
 From root
 

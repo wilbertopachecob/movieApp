@@ -63,12 +63,13 @@ export class RateMovieComponent implements OnInit {
   }
 
   rateMovie(rate: any) {
-    this.rates.forEach((r) => {
-      r.checked = false;
-    });
-    rate.checked = true;
-    this.rateText = rate.text;
     if (this._auth.isLoggedIn()) {
+      this.rates.forEach((r) => {
+        r.checked = false;
+      });
+      rate.checked = true;
+      this.rateText = rate.text;
+
       //If the user already gave a rate to the movie then update else insert
       if (Object.keys(this.currentRate).length) {
         const data = {

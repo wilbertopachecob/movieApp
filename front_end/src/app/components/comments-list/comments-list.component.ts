@@ -8,7 +8,7 @@ import { forkJoin, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { Movie, movieInitValues } from 'src/app/models/Movie';
 import { CommentLikesService } from 'src/app/services/comment-likes.service';
-import { CommentLike, commentLikeInitValues } from 'src/app/models/CommentLike';
+import { CommentLike } from 'src/app/models/CommentLike';
 
 interface CommentExtended extends Comment {
   showEdit: boolean;
@@ -47,7 +47,7 @@ export class CommentsListComponent implements OnInit {
       this._commentService.getAllMovieComments(Number(this.movie.id)),
       this._commentLS.getUserMovieCommentLike(this.movie.id!, this.user.id!),
     ]).subscribe(
-      ([comments, commentLikes]: [Comment[], CommentLike[]]) => {
+      ([comments, commentLikes = []]: [Comment[], CommentLike[]]) => {
         this.comments = <CommentExtended[]>comments;
         let combined: any[] = [];
 

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { CommentLike } from '../models/CommentLike';
 
@@ -28,8 +28,12 @@ export class CommentLikesService {
     movieID: number,
     userID: number
   ): Observable<CommentLike[]> {
-    return this._httpClient.get<CommentLike[]>(
-      `${environment.apiURL}/comment_likes/${movieID}/${userID}`
-    );
+    if (userID !== 0) {
+      return this._httpClient.get<CommentLike[]>(
+        `${environment.apiURL}/comment_likes/${movieID}/${userID}`
+      );
+    }
+    const r: CommentLike[] = [];
+    return of(r);
   }
 }
