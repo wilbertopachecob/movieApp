@@ -17,7 +17,11 @@
         >Home <span class="sr-only">(current)</span></a
       >
     </div>
-    <div *ngIf="!isLoggedIn(); else userSettings" class="navbar-nav">
+    <div
+      *ngIf="!isLoggedIn(); else userSettings"
+      class="navbar-nav"
+      style="margin-left: auto"
+    >
       <a
         class="nav-item nav-link"
         role="button"
@@ -34,7 +38,11 @@
       >
     </div>
     <ng-template #userSettings>
-      <div class="row" #userSettings>
+      <div
+        class="row"
+        #userSettings
+        style="margin-left: auto; margin-right: 20px"
+      >
         <div class="col">
           <div ngbDropdown class="d-inline-block">
             <button
