@@ -6,10 +6,9 @@ userCtrl.addUser = async (userData, res) => {
   try {
     // Check if user already exists
     const existingUser = await userCtrl.getUserByEmail(userData.email);
-    if (existingUser.length > 0) {
-      return res.status(400).json({
-        status: "error",
-        message: "User with this email already exists"
+    if (existingUser && existingUser.length > 0) {
+      return res.status(409).json({
+        error: "User with this email already exists"
       });
     }
 

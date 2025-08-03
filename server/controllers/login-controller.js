@@ -30,13 +30,15 @@ loginCtrl.login = async (data, res) => {
       });
       return;
     }
-    res.status(401);
-    res.end();
+    res.status(401).json({
+      error: "Invalid password"
+    });
     return;
   }
 
-  res.status(404);
-  res.end();
+  res.status(401).json({
+    error: "Invalid email or password"
+  });
 };
 
 module.exports = loginCtrl;

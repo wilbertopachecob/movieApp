@@ -10,4 +10,12 @@ global.console = {
   info: jest.fn(),
   warn: jest.fn(),
   error: jest.fn(),
-}; 
+};
+
+// Mock database connection for tests
+jest.mock('../db/db', () => {
+  const mockExecute = jest.fn();
+  return {
+    execute: mockExecute
+  };
+}); 

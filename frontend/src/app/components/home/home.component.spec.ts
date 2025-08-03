@@ -100,6 +100,7 @@ describe('HomeComponent', () => {
       expect(movieService.getMoviesByNameFilter).toHaveBeenCalledWith('test', 'title');
       expect(component.isLoading).toBe(false);
       expect(component.movies.length).toBe(2);
+      // The component formats dates using date-fns, so we need to check the formatted dates
       expect(component.movies[0].released).toBe('2022-12-31');
       expect(component.movies[1].released).toBe('2022-06-14');
     });
@@ -225,9 +226,16 @@ describe('HomeComponent', () => {
     });
 
     it('should display loading state', () => {
-      // Test the loading state by checking if the loading section is rendered
+      // Mock the service to return a delayed observable
+      movieService.getAllMovies.and.returnValue(of([]));
+      
+      // Prevent automatic initialization
+      spyOn(component, 'ngOnInit').and.stub();
+      
+      // Set loading state and trigger change detection
       component.isLoading = true;
-      // Don't call fixture.detectChanges() to avoid triggering ngOnInit
+      fixture.detectChanges();
+      
       const compiled = fixture.nativeElement;
       const loadingSection = compiled.querySelector('.loading-section');
       expect(loadingSection).toBeTruthy();

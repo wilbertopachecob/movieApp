@@ -121,9 +121,9 @@ describe('Middleware Tests', () => {
       app.use(errorHandler);
 
       const response = await request(app)
-        .get('/test')
-        .expect(400);
+        .get('/test');
 
+      expect(response.status).toBe(400);
       expect(response.body).toHaveProperty('error');
       expect(response.body.error).toBe('Validation failed');
     });
@@ -135,9 +135,9 @@ describe('Middleware Tests', () => {
       app.use(errorHandler);
 
       const response = await request(app)
-        .get('/async-test')
-        .expect(500);
+        .get('/async-test');
 
+      expect(response.status).toBe(500);
       expect(response.body).toHaveProperty('error');
       expect(response.body.error).toBe('Async error');
     });

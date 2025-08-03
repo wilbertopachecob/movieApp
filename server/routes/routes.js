@@ -7,24 +7,19 @@ const commentCtrl = require("../controllers/comment-controller");
 const rateMovieCtrl = require("../controllers/rate-movie-controller");
 const commentLikesCtrl = require("../controllers/comment-likes-controller");
 const auth = require("../controllers/auth-controller");
+const { validateLogin, validateRegister } = require("../middleware/validation");
 
 const authMiddleware = [auth.verifyToken, auth.validateToken];
 const adminMiddlewares = [...authMiddleware, auth.validateAdmin];
 
 // Authentication
-router.post("/login", (req, res) => {
+router.post("/login", validateLogin, (req, res) => {
   let user = req.body;
-  if (!user.password || !user.email) {
-    return res.status(400).json({ error: "Email and password are required" });
-  }
   loginCtrl.login(user, res);
 });
 
-router.post("/register", (req, res) => {
+router.post("/register", validateRegister, (req, res) => {
   let userData = req.body;
-  if (!userData.password || !userData.email || !userData.name) {
-    return res.status(400).json({ error: "Name, email and password are required" });
-  }
   userCtrl.addUser(userData, res);
 });
 
