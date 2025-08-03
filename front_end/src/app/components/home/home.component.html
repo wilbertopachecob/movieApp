@@ -17,7 +17,14 @@
     <!-- Search and Filter Section -->
     <section class="search-section" id="search-section" role="search" aria-label="Search movies">
       <h2 class="search-title">Find Your Perfect Movie</h2>
-      <form class="search-form" role="search" aria-label="Movie search form">
+      
+      <!-- Error Message -->
+      <div *ngIf="errorMessage" class="error-message" role="alert" aria-live="assertive">
+        <i class="fas fa-exclamation-circle" aria-hidden="true"></i>
+        <span>{{ errorMessage }}</span>
+      </div>
+
+      <form class="search-form" role="search" aria-label="Movie search form" (ngSubmit)="getMovies(searchMovie.value, filters.value)">
         <div class="filter-group">
           <label for="filters" class="filter-label">Search by</label>
           <select 
@@ -45,8 +52,8 @@
             placeholder="Search for movies..."
             aria-label="Search movies by title or genre"
             [attr.aria-describedby]="'search-description'"
-            (keyup.enter)="getMovies(searchMovie.value, filters.value)"
             #searchMovie
+            [value]="searchTerm"
           />
           <i class="fas fa-search search-icon" aria-hidden="true"></i>
           <div id="search-description" class="sr-only">
@@ -54,24 +61,58 @@
           </div>
         </div>
         
-        <button
-          type="button"
-          class="search-button"
-          id="search_movie"
-          (click)="getMovies(searchMovie.value, filters.value)"
-          aria-label="Search for movies"
-        >
-          <i class="fas fa-search" aria-hidden="true"></i>
-          <span>Search</span>
-        </button>
+        <div class="search-actions">
+          <button
+            type="submit"
+            class="search-button"
+            id="search_movie"
+            [disabled]="isLoading"
+            aria-label="Search for movies"
+          >
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <span>{{ isLoading ? 'Searching...' : 'Search' }}</span>
+          </button>
+          
+          <button
+            *ngIf="hasSearched"
+            type="button"
+            class="clear-button"
+            (click)="clearSearch()"
+            aria-label="Clear search and show all movies"
+          >
+            <i class="fas fa-times" aria-hidden="true"></i>
+            <span>Clear</span>
+          </button>
+        </div>
       </form>
+    </section>
+
+    <!-- Loading State -->
+    <section *ngIf="isLoading" class="loading-section" role="status" aria-live="polite">
+      <div class="loading-spinner" aria-hidden="true"></div>
+      <p class="loading-text">Loading movies...</p>
+    </section>
+
+    <!-- Search Results Info -->
+    <section *ngIf="!isLoading && hasSearched" class="search-results-info" role="status" aria-live="polite">
+      <p class="results-text">
+        Found {{ movies.length }} movie{{ movies.length !== 1 ? 's' : '' }} for "{{ searchTerm }}" in {{ currentFilter }}
+        <button 
+          type="button" 
+          class="show-all-link" 
+          (click)="clearSearch()"
+          aria-label="Show all movies"
+        >
+          Show all movies
+        </button>
+      </p>
     </section>
 
     <!-- Movies Grid -->
     <section 
       class="movies-grid" 
       id="movies-grid"
-      *ngIf="movies.length > 0"
+      *ngIf="!isLoading && movies.length > 0"
       role="region"
       aria-label="Movies collection"
       aria-live="polite"
@@ -89,15 +130,30 @@
     <!-- Empty State -->
     <section 
       class="movies-empty" 
-      *ngIf="movies.length === 0"
+      *ngIf="!isLoading && movies.length === 0"
       role="region"
       aria-label="No movies found"
     >
       <i class="fas fa-film movies-empty-icon" aria-hidden="true"></i>
-      <h3 class="movies-empty-title">No movies found</h3>
+      <h3 class="movies-empty-title">
+        {{ hasSearched ? 'No movies found' : 'No movies available' }}
+      </h3>
       <p class="movies-empty-text">
-        Try adjusting your search criteria or browse our collection to discover new films.
+        {{ hasSearched 
+          ? 'Try adjusting your search criteria or browse our collection to discover new films.' 
+          : 'No movies have been added to the collection yet.' 
+        }}
       </p>
+      <button 
+        *ngIf="hasSearched"
+        type="button" 
+        class="show-all-button" 
+        (click)="clearSearch()"
+        aria-label="Show all movies"
+      >
+        <i class="fas fa-list" aria-hidden="true"></i>
+        Show All Movies
+      </button>
     </section>
   </div>
 </div>
