@@ -1,36 +1,42 @@
-<div class="movie-card" (click)="detail.openModal()">
+<article class="movie-card" (click)="detail.openModal()" (keydown.enter)="detail.openModal()" (keydown.space)="detail.openModal()" tabindex="0" role="button" [attr.aria-label]="'View details for ' + movie.title">
   <!-- Movie Poster -->
   <div class="movie-poster">
-    <img [src]="movie.poster" [alt]="movie.title + ' poster'" />
+    <img [src]="movie.poster" [alt]="movie.title + ' poster'" loading="lazy" />
     
     <!-- Rating Badge -->
-    <div class="rating-badge">
-      {{ calculateRating() }}
+    <div class="rating-badge" aria-label="Rating: {{ calculateRating() }} out of 5 stars">
+      <span aria-hidden="true">{{ calculateRating() }}</span>
+      <span class="sr-only">{{ calculateRating() }} out of 5 stars</span>
     </div>
     
     <!-- Status Badge (optional) -->
     <div class="movie-status" *ngIf="movie.released && isNewMovie()">
-      <span class="status-badge status-new">New</span>
+      <span class="status-badge status-new" aria-label="New release">New</span>
     </div>
   </div>
   
   <!-- Movie Content -->
   <div class="movie-content">
-    <h3 class="movie-title">{{ movie.title }}</h3>
+    <h3 class="movie-title" id="movie-title-{{ movie.id }}">{{ movie.title }}</h3>
     
-    <p class="movie-description">
+    <p class="movie-description" aria-describedby="movie-title-{{ movie.id }}">
       {{ movie.plot || 'Experience this amazing film with stunning visuals and compelling storytelling.' }}
     </p>
     
     <div class="movie-meta">
-      <i class="far fa-calendar-alt"></i>
+      <i class="far fa-calendar-alt" aria-hidden="true"></i>
       <span>{{ movie.released || 'Release date not available' }}</span>
     </div>
     
     <!-- Action Buttons -->
-    <div class="movie-actions" *ngIf="canManage()" (click)="$event.stopPropagation()">
-      <a class="action-button edit-button" [routerLink]="['/movie/edit', movie.id || 0]">
-        <i class="fas fa-edit"></i>
+    <div class="movie-actions" *ngIf="canManage()" (click)="$event.stopPropagation()" role="group" aria-label="Movie actions">
+      <a 
+        class="action-button edit-button" 
+        [routerLink]="['/movie/edit', movie.id || 0]"
+        aria-label="Edit {{ movie.title }}"
+        tabindex="0"
+      >
+        <i class="fas fa-edit" aria-hidden="true"></i>
         <span>Edit</span>
       </a>
       
@@ -39,13 +45,15 @@
         [class.loading]="isLoading"
         (click)="delete($event, movie.id || 0)"
         [disabled]="isLoading"
+        [attr.aria-label]="isLoading ? 'Deleting ' + movie.title : 'Delete ' + movie.title"
+        tabindex="0"
       >
-        <span class="loading-spinner" *ngIf="isLoading"></span>
-        <i *ngIf="!isLoading" class="far fa-trash-alt"></i>
+        <span class="loading-spinner" *ngIf="isLoading" aria-hidden="true"></span>
+        <i *ngIf="!isLoading" class="far fa-trash-alt" aria-hidden="true"></i>
         <span>{{ isLoading ? 'Deleting...' : 'Delete' }}</span>
       </button>
     </div>
   </div>
-</div>
+</article>
 
 <app-details #detail [movie]="movie"></app-details>

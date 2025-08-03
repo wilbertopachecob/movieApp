@@ -5,86 +5,114 @@
       *ngIf="flashMSG"
       class="alert"
       [ngClass]="'alert-' + flashMSG.type"
+      role="alert"
+      aria-live="assertive"
     >
       <span>{{ flashMSG.msg }}</span>
       <button
         class="alert-close"
-        aria-label="Close alert"
+        aria-label="Close alert message"
         (click)="flashMSG = null"
+        type="button"
       >
-        <i class="fas fa-times"></i>
+        <i class="fas fa-times" aria-hidden="true"></i>
+        <span class="sr-only">Close</span>
       </button>
     </div>
 
     <!-- Login Header -->
-    <div class="login-header">
-      <div class="login-logo">
+    <header class="login-header">
+      <div class="login-logo" aria-hidden="true">
         <i class="fas fa-film"></i>
       </div>
       <h1 class="login-title">Welcome Back</h1>
       <p class="login-subtitle">Sign in to your MovieApp account</p>
-    </div>
+    </header>
 
     <!-- Login Form -->
-    <form class="login-form" (submit)="loginUser(f)" #f="ngForm">
-      <div class="form-group">
-        <label for="email" class="form-label">Email Address</label>
-        <div class="input-wrapper">
-          <input
-            class="form-input input-with-icon"
-            type="email"
-            id="email"
-            name="email"
-            placeholder="Enter your email"
-            autofocus
-            ngModel
-            #email="ngModel"
-            [class.is-invalid]="email.invalid && email.touched"
-            required
-          />
-          <i class="fas fa-envelope input-icon"></i>
+    <form class="login-form" (submit)="loginUser(f)" #f="ngForm" role="form" aria-label="Login form">
+      <fieldset>
+        <legend class="sr-only">Login credentials</legend>
+        
+        <div class="form-group">
+          <label for="email" class="form-label">Email Address</label>
+          <div class="input-wrapper">
+            <input
+              class="form-input input-with-icon"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
+              autofocus
+              ngModel
+              #email="ngModel"
+              [class.is-invalid]="email.invalid && email.touched"
+              required
+              aria-describedby="email-error email-help"
+              aria-required="true"
+            />
+            <i class="fas fa-envelope input-icon" aria-hidden="true"></i>
+          </div>
+          <div
+            class="error-message"
+            id="email-error"
+            *ngIf="email.invalid && email.touched"
+            role="alert"
+            aria-live="polite"
+          >
+            <i class="fas fa-exclamation-circle" aria-hidden="true"></i>
+            <span>Please enter a valid email address</span>
+          </div>
+          <div id="email-help" class="sr-only">
+            Enter your email address to sign in to your account
+          </div>
         </div>
-        <div
-          class="error-message"
-          *ngIf="email.invalid && email.touched"
-        >
-          <i class="fas fa-exclamation-circle"></i>
-          <span>Please enter a valid email address</span>
-        </div>
-      </div>
 
-      <div class="form-group">
-        <label for="password" class="form-label">Password</label>
-        <div class="input-wrapper">
-          <input
-            class="form-input input-with-icon"
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Enter your password"
-            ngModel
-            #password="ngModel"
-            [class.is-invalid]="password.invalid && password.touched"
-            required
-          />
-          <i class="fas fa-lock input-icon"></i>
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <div class="input-wrapper">
+            <input
+              class="form-input input-with-icon"
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+              ngModel
+              #password="ngModel"
+              [class.is-invalid]="password.invalid && password.touched"
+              required
+              aria-describedby="password-error password-help"
+              aria-required="true"
+            />
+            <i class="fas fa-lock input-icon" aria-hidden="true"></i>
+          </div>
+          <div
+            class="error-message"
+            id="password-error"
+            *ngIf="password.invalid && password.touched"
+            role="alert"
+            aria-live="polite"
+          >
+            <i class="fas fa-exclamation-circle" aria-hidden="true"></i>
+            <span>Password is required</span>
+          </div>
+          <div id="password-help" class="sr-only">
+            Enter your password to sign in to your account
+          </div>
         </div>
-        <div
-          class="error-message"
-          *ngIf="password.invalid && password.touched"
-        >
-          <i class="fas fa-exclamation-circle"></i>
-          <span>Password is required</span>
-        </div>
-      </div>
 
-      <button 
-        type="submit" 
-        class="login-button"
-        [disabled]="f.invalid"
-      >
-        <span>Sign In</span>
-      </button>
+        <button 
+          type="submit" 
+          class="login-button"
+          [disabled]="f.invalid"
+          aria-describedby="submit-help"
+        >
+          <span>Sign In</span>
+        </button>
+        <div id="submit-help" class="sr-only">
+          Click to sign in to your MovieApp account
+        </div>
+      </fieldset>
     </form>
   </div>
 </div>

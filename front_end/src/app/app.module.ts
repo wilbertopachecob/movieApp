@@ -23,6 +23,7 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { ErrorComponent } from './components/error/error.component';
 import { ButtonComponent } from './components/ui/button/button.component';
 import { InputComponent } from './components/ui/input/input.component';
+import { AccessibilityDirective, FocusTrapDirective, LiveRegionDirective } from './directives/accessibility.directive';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,9 @@ import { InputComponent } from './components/ui/input/input.component';
     ErrorComponent,
     ButtonComponent,
     InputComponent,
+    AccessibilityDirective,
+    FocusTrapDirective,
+    LiveRegionDirective,
   ],
   imports: [
     BrowserModule,

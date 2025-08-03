@@ -1,42 +1,57 @@
 <div class="home-container">
   <div class="container">
     <!-- Page Header -->
-    <div class="page-header">
+    <header class="page-header" role="banner">
       <h1 class="page-title">Discover Amazing Movies</h1>
       <p class="page-subtitle">Explore our collection of films and find your next favorite movie</p>
-    </div>
+    </header>
 
     <!-- Add Movie Button -->
-    <div class="add-movie-section" *ngIf="canManage()">
-      <a class="add-movie-button" routerLink="/movie/add">
-        <i class="fas fa-plus"></i>
+    <section class="add-movie-section" *ngIf="canManage()" aria-label="Add new movie">
+      <a class="add-movie-button" routerLink="/movie/add" aria-label="Add a new movie to the collection">
+        <i class="fas fa-plus" aria-hidden="true"></i>
         <span>Add Movie</span>
       </a>
-    </div>
+    </section>
 
     <!-- Search and Filter Section -->
-    <div class="search-section">
+    <section class="search-section" id="search-section" role="search" aria-label="Search movies">
       <h2 class="search-title">Find Your Perfect Movie</h2>
-      <form class="search-form">
+      <form class="search-form" role="search" aria-label="Movie search form">
         <div class="filter-group">
           <label for="filters" class="filter-label">Search by</label>
-          <select name="filters" id="filters" class="filter-select" #filters>
+          <select 
+            name="filters" 
+            id="filters" 
+            class="filter-select" 
+            #filters
+            aria-describedby="filter-description"
+          >
             <option value="title">Title</option>
             <option value="genre">Genre</option>
           </select>
+          <div id="filter-description" class="sr-only">
+            Choose whether to search by movie title or genre
+          </div>
         </div>
         
         <div class="search-group">
+          <label for="search_field" class="sr-only">Search movies</label>
           <input
             type="text"
             class="search-input"
             id="search_field"
+            name="search"
             placeholder="Search for movies..."
-            aria-label="Search movies"
+            aria-label="Search movies by title or genre"
+            aria-describedby="search-description"
             (keyup.enter)="getMovies(searchMovie.value, filters.value)"
             #searchMovie
           />
-          <i class="fas fa-search search-icon"></i>
+          <i class="fas fa-search search-icon" aria-hidden="true"></i>
+          <div id="search-description" class="sr-only">
+            Type the movie title or genre you want to search for, then press Enter or click Search
+          </div>
         </div>
         
         <button
@@ -44,30 +59,45 @@
           class="search-button"
           id="search_movie"
           (click)="getMovies(searchMovie.value, filters.value)"
+          aria-label="Search for movies"
         >
-          <i class="fas fa-search"></i>
+          <i class="fas fa-search" aria-hidden="true"></i>
           <span>Search</span>
         </button>
       </form>
-    </div>
+    </section>
 
     <!-- Movies Grid -->
-    <div class="movies-grid" *ngIf="movies.length > 0">
+    <section 
+      class="movies-grid" 
+      id="movies-grid"
+      *ngIf="movies.length > 0"
+      role="region"
+      aria-label="Movies collection"
+      aria-live="polite"
+    >
+      <h2 class="sr-only">Movies in collection</h2>
       <app-movie
-        *ngFor="let movie of movies"
+        *ngFor="let movie of movies; trackBy: trackByMovieId"
         [movie]="movie"
         (removedMovie)="removeFromMovies($event)"
-        role="button"
+        role="article"
+        [attr.aria-label]="'Movie: ' + movie.title"
       ></app-movie>
-    </div>
+    </section>
 
     <!-- Empty State -->
-    <div class="movies-empty" *ngIf="movies.length === 0">
-      <i class="fas fa-film movies-empty-icon"></i>
+    <section 
+      class="movies-empty" 
+      *ngIf="movies.length === 0"
+      role="region"
+      aria-label="No movies found"
+    >
+      <i class="fas fa-film movies-empty-icon" aria-hidden="true"></i>
       <h3 class="movies-empty-title">No movies found</h3>
       <p class="movies-empty-text">
         Try adjusting your search criteria or browse our collection to discover new films.
       </p>
-    </div>
+    </section>
   </div>
 </div>
