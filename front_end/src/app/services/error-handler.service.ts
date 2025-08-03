@@ -57,52 +57,16 @@ export class ErrorHandlerService implements ErrorHandler {
    */
   private handleHttpError(error: HttpErrorResponse): ErrorInfo {
     const router = this.injector.get(Router);
-    
-    let message = environment.errorMessages.serverError;
-    let type: 'error' | 'warning' | 'info' = 'error';
-
-    if (error.error instanceof ErrorEvent) {
-      // Client-side error
-      message = environment.errorMessages.networkError;
-    } else {
-      // Server-side error
-      switch (error.status) {
-        case 400:
-          message = this.formatValidationErrors(error);
-          type = 'warning';
-          break;
-        case 401:
-          message = environment.errorMessages.unauthorized;
-          // Redirect to login
-          router.navigate(['/login']);
-          break;
-        case 403:
-          message = environment.errorMessages.unauthorized;
-          break;
-        case 404:
-          message = environment.errorMessages.notFound;
-          break;
-        case 429:
-          message = 'Too many requests. Please try again later.';
-          type = 'warning';
-          break;
-        case 500:
-          message = environment.errorMessages.serverError;
-          break;
-        default:
-          message = environment.errorMessages.serverError;
-      }
-    }
 
     return {
-      message,
-      type,
+      message: this.formatValidationErrors(error),
+      type: 'error',
       timestamp: new Date(),
       userAgent: navigator.userAgent,
       url: router.url,
       statusCode: error.status,
       errorCode: this.getErrorCode(error),
-      stack: error.stack
+      stack: undefined // HttpErrorResponse doesn't have a stack property
     };
   }
 
