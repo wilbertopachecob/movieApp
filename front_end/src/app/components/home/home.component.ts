@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import * as moment from 'moment';
+import { format } from 'date-fns';
 import { Movie } from 'src/app/models/Movie';
 import { AuthService } from 'src/app/services/auth.service';
 import { MovieService } from 'src/app/services/movie.service';
@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
         (movies: Movie[]) => {
           this.isLoading = false;
           this.movies = movies.map((m) => {
-            m.released = moment(m.released).format('YYYY-MM-DD');
+            m.released = format(new Date(m.released), 'yyyy-MM-dd');
             return m;
           });
         },

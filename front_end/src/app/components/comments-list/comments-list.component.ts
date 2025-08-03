@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Comment } from 'src/app/models/Comment';
 import { CommentService } from 'src/app/services/comment.service';
-import * as moment from 'moment';
+import { differenceInSeconds } from 'date-fns';
 import { User } from 'src/app/models/User';
 import { AppStoreService } from 'src/app/app-store.service';
 import { forkJoin, Subscription } from 'rxjs';
@@ -129,7 +129,7 @@ export class CommentsListComponent implements OnInit {
   }
 
   timeSince(date: string) {
-    const seconds = moment().diff(moment(date), 'seconds');
+    const seconds = differenceInSeconds(new Date(), new Date(date));
 
     let interval = seconds / 31536000;
 
