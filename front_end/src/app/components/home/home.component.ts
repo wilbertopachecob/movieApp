@@ -48,4 +48,8 @@ export class HomeComponent implements OnInit {
   canManage() {
     return this._auth.isAdmin();
   }
+
+  trackByMovieId(index: number, movie: Movie): number {
+    return movie.id || index;
+  }
 }
