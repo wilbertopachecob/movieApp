@@ -1,38 +1,51 @@
-<div (click)="detail.openModal()">
-  <img class="card-img-top" [src]="movie.poster" alt="Card image cap" />
-  <div class="card-body">
-    <div class="rating float-end" style="text-align: end">
+<div class="movie-card" (click)="detail.openModal()">
+  <!-- Movie Poster -->
+  <div class="movie-poster">
+    <img [src]="movie.poster" [alt]="movie.title + ' poster'" />
+    
+    <!-- Rating Badge -->
+    <div class="rating-badge">
       {{ calculateRating() }}
     </div>
-    <h5 class="card-title">{{ movie.title }}</h5>
-    <p class="card-text">
-      This is a longer card with supporting text below as a natural lead-in to
-      additional content. This content is a little bit longer.
+    
+    <!-- Status Badge (optional) -->
+    <div class="movie-status" *ngIf="movie.released && isNewMovie()">
+      <span class="status-badge status-new">New</span>
+    </div>
+  </div>
+  
+  <!-- Movie Content -->
+  <div class="movie-content">
+    <h3 class="movie-title">{{ movie.title }}</h3>
+    
+    <p class="movie-description">
+      {{ movie.plot || 'Experience this amazing film with stunning visuals and compelling storytelling.' }}
     </p>
-    <p class="card-text">
-      <small class="text-muted"
-        ><i class="far fa-calendar-alt"></i> {{ movie.released }}</small
-      >
-    </p>
-    <div class="actions btn-group" *ngIf="canManage()">
-      <a class="btn btn-primary" [routerLink]="['/movie/edit', movie.id || 0]">
+    
+    <div class="movie-meta">
+      <i class="far fa-calendar-alt"></i>
+      <span>{{ movie.released || 'Release date not available' }}</span>
+    </div>
+    
+    <!-- Action Buttons -->
+    <div class="movie-actions" *ngIf="canManage()" (click)="$event.stopPropagation()">
+      <a class="action-button edit-button" [routerLink]="['/movie/edit', movie.id || 0]">
         <i class="fas fa-edit"></i>
-        Edit
+        <span>Edit</span>
       </a>
+      
       <button
-        class="btn btn-danger ml-1"
+        class="action-button delete-button"
+        [class.loading]="isLoading"
         (click)="delete($event, movie.id || 0)"
+        [disabled]="isLoading"
       >
-        <span
-          class="spinner-border spinner-border-sm"
-          role="status"
-          aria-hidden="true"
-          *ngIf="isLoading"
-        ></span>
+        <span class="loading-spinner" *ngIf="isLoading"></span>
         <i *ngIf="!isLoading" class="far fa-trash-alt"></i>
-        Delete
+        <span>{{ isLoading ? 'Deleting...' : 'Delete' }}</span>
       </button>
     </div>
   </div>
 </div>
+
 <app-details #detail [movie]="movie"></app-details>

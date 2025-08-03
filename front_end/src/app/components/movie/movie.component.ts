@@ -72,4 +72,13 @@ export class MovieComponent implements OnInit {
   canManage() {
     return this._auth.isAdmin();
   }
+
+  isNewMovie(): boolean {
+    if (!this.movie.released) return false;
+    const releaseDate = new Date(this.movie.released);
+    const currentDate = new Date();
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(currentDate.getMonth() - 6);
+    return releaseDate >= sixMonthsAgo;
+  }
 }
