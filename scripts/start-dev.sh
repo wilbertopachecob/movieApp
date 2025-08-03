@@ -54,9 +54,9 @@ if [ ! -d "server/node_modules" ]; then
     cd server && npm install && cd ..
 fi
 
-if [ ! -d "front_end/node_modules" ]; then
+if [ ! -d "frontend/node_modules" ]; then
     print_warning "Frontend dependencies not found. Installing..."
-    cd front_end && npm install && cd ..
+    cd frontend && npm install && cd ..
 fi
 
 # Check if .env file exists in server directory
@@ -83,7 +83,7 @@ fi
 
 # Start frontend server
 print_status "Starting frontend server..."
-cd front_end
+cd frontend
 npm start &
 FRONTEND_PID=$!
 cd ..

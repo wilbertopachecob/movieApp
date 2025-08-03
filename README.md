@@ -75,22 +75,23 @@ npm start
 
 ```
 movieApp/
-├── front_end/                 # Angular frontend application
-│   ├── src/
-│   │   ├── app/
-│   │   │   ├── components/    # Angular components
-│   │   │   ├── services/      # API services
-│   │   │   ├── models/        # TypeScript interfaces
-│   │   │   └── guards/        # Route guards
-│   │   └── assets/           # Static assets
-│   └── package.json
-├── server/                    # Node.js backend
-│   ├── controllers/          # Route controllers
-│   ├── routes/               # API routes
-│   ├── models/               # Database models
-│   └── app.js               # Main server file
-└── movies-app.sql           # Database schema and sample data
+├── 📚 docs/                     # Project documentation
+├── 🎨 frontend/                 # Angular frontend application
+├── ⚙️ server/                   # Node.js backend application
+├── 🔧 scripts/                  # Development and utility scripts
+├── ⚙️ config/                   # Configuration files
+├── 🗄️ database/                # Database schema and migrations
+├── 📊 logs/                     # Application logs
+├── 🚀 deployment/               # Deployment configurations
+├── 🔧 .github/                  # GitHub Actions CI/CD
+├── 📄 package.json              # Root workspace configuration
+├── 🛠️ Makefile                 # Development commands
+├── 📋 .nvmrc                    # Node.js version specification
+├── ⚙️ .editorconfig            # Editor configuration
+└── 📖 README.md                 # Project overview
 ```
+
+For detailed structure information, see [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md).
 
 ## 🔧 Configuration
 
@@ -114,6 +115,17 @@ PORT=3000
 ## 🛠️ Development
 
 ### Available Scripts
+
+**Root Level (Recommended):**
+```bash
+make dev         # Start development servers
+make stop        # Stop development servers
+make setup       # Run initial setup
+make install     # Install all dependencies
+make test        # Run all tests
+make lint        # Run linting
+make build       # Build for production
+```
 
 **Backend:**
 ```bash
@@ -235,6 +247,18 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [ ] Add GraphQL API for flexible data fetching
 - [ ] Create mobile application with React Native
 - [ ] Implement analytics and reporting system
+
+## 📚 Documentation
+
+For detailed documentation, see the [docs/](docs/) directory:
+
+- **[API Documentation](docs/API_DOCUMENTATION.md)** - Complete API reference
+- **[Improvements](docs/IMPROVEMENTS.md)** - Project improvements and enhancements
+- **[Test Results](docs/TEST_RESULTS.md)** - Test coverage and results
+- **[Angular Upgrade](docs/ANGULAR_UPGRADE_SUMMARY.md)** - Angular upgrade details
+- **[Package Upgrades](docs/PACKAGE_UPGRADE_SUMMARY.md)** - Package upgrade history
+- **[Accessibility Guide](docs/ACCESSIBILITY_GUIDE.md)** - Frontend accessibility guidelines
+- **[Styling Guide](docs/STYLING_GUIDE.md)** - Frontend styling guidelines
 
 ## 📞 Support
 

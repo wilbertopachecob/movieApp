@@ -96,9 +96,9 @@ setup_database() {
 
     # Import schema
     if [ -z "$MYSQL_ROOT_PASSWORD" ]; then
-        mysql -u root "$DB_NAME" < movies-app.sql
+        mysql -u root "$DB_NAME" < database/movies-app.sql
     else
-        mysql -u root -p"$MYSQL_ROOT_PASSWORD" "$DB_NAME" < movies-app.sql
+        mysql -u root -p"$MYSQL_ROOT_PASSWORD" "$DB_NAME" < database/movies-app.sql
     fi
 
     print_success "Database setup completed!"
