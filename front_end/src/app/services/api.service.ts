@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject, timer } from 'rxjs';
-import { catchError, retry, timeout, switchMap, tap, shareReplay } from 'rxjs/operators';
+import { catchError, retry, timeout, switchMap, tap, shareReplay, retryWhen, delay } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 export interface ApiResponse<T = any> {
@@ -146,7 +146,7 @@ export class ApiService {
       retry(environment.api.retryAttempts),
       catchError(error => this.handleError(error)),
       tap(() => this.setLoading(false))
-    );
+    ) as Observable<T>;
   }
 
   /**
@@ -285,13 +285,17 @@ export class ApiService {
   private retryWithBackoff(maxRetries: number = 3, delay: number = 1000) {
     return (source: Observable<any>) => {
       return source.pipe(
-        retry({
-          count: maxRetries,
-          delay: (error, retryCount) => {
-            const backoffDelay = delay * Math.pow(2, retryCount - 1);
-            return timer(backoffDelay);
-          }
-        })
+        retryWhen(errors => 
+          errors.pipe(
+            switchMap((error, index) => {
+              if (index >= maxRetries) {
+                return throwError(() => error);
+              }
+              const backoffDelay = delay * Math.pow(2, index);
+              return timer(backoffDelay);
+            })
+          )
+        )
       );
     };
   }
