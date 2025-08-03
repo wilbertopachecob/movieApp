@@ -142,7 +142,9 @@ describe('AuthService', () => {
 
     it('should return default role when localStorage user is invalid JSON', () => {
       localStorage.setItem('user', 'invalid-json');
+      spyOn(console, 'log');
       expect(service.getUserRole()).toBe(2);
+      expect(console.log).toHaveBeenCalled();
     });
 
     it('should return default role when user has no role_id', () => {

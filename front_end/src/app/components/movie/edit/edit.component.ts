@@ -32,7 +32,7 @@ export class EditComponent implements OnInit {
     if (!id) {
       this.errors.push('Missing required parameter');
     } else {
-      this._movieService.getMovieById(id).subscribe(
+      this._movieService.getMovieById(Number(id)).subscribe(
         (movie: Movie) => {
           this.movie = movie;
           this.originalMovie = movie;

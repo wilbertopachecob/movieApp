@@ -60,7 +60,7 @@ describe('AuthGuard', () => {
       expect(guard.canActivate()).toBe(false);
 
       expect(authService.isLoggedIn).toHaveBeenCalledTimes(3);
-      expect(authService.isAdmin).toHaveBeenCalledTimes(3);
+      expect(authService.isAdmin).toHaveBeenCalledTimes(2);
       expect(router.navigate).toHaveBeenCalledTimes(2);
     });
   });

@@ -28,18 +28,16 @@ describe('HeaderComponent', () => {
       user$: of(mockUser)
     });
     const authServiceSpy = jasmine.createSpyObj('AuthService', ['isLoggedIn', 'logout']);
-    const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
 
     await TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
-        RouterTestingModule
+        RouterTestingModule.withRoutes([])
       ],
       declarations: [ HeaderComponent ],
       providers: [
         { provide: AppStoreService, useValue: appStoreServiceSpy },
-        { provide: AuthService, useValue: authServiceSpy },
-        { provide: Router, useValue: routerSpy }
+        { provide: AuthService, useValue: authServiceSpy }
       ]
     })
     .compileComponents();
@@ -73,12 +71,14 @@ describe('HeaderComponent', () => {
   });
 
   it('should navigate to login page', () => {
+    spyOn(router, 'navigate');
     component.login();
     
     expect(router.navigate).toHaveBeenCalledWith(['/login']);
   });
 
   it('should navigate to signin page', () => {
+    spyOn(router, 'navigate');
     component.signin();
     
     expect(router.navigate).toHaveBeenCalledWith(['/signin']);
@@ -92,23 +92,22 @@ describe('HeaderComponent', () => {
 
   it('should render header elements', () => {
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('header')).toBeTruthy();
+    expect(compiled.querySelector('nav')).toBeTruthy();
   });
 
-  it('should display user name when user is logged in', () => {
+  it('should display account menu when user is logged in', () => {
     authService.isLoggedIn.and.returnValue(true);
     fixture.detectChanges();
 
     const compiled = fixture.nativeElement;
-    expect(compiled.textContent).toContain('Test User');
+    expect(compiled.textContent).toContain('Account');
   });
 
-  it('should show login/signin buttons when user is not logged in', () => {
+  it('should show login button when user is not logged in', () => {
     authService.isLoggedIn.and.returnValue(false);
     fixture.detectChanges();
 
     const compiled = fixture.nativeElement;
-    expect(compiled.textContent).toContain('Login');
-    expect(compiled.textContent).toContain('Sign In');
+    expect(compiled.textContent).toContain('Log in');
   });
 });

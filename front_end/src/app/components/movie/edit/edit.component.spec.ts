@@ -186,6 +186,9 @@ describe('EditComponent', () => {
   });
 
   it('should display flash message when flashMSG is set', () => {
+    movieService.getMovieById.and.returnValue(of(mockMovie));
+    component.ngOnInit();
+    
     component.flashMSG = {
       type: 'danger',
       msg: 'Test error message'

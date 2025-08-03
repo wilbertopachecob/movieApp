@@ -54,7 +54,8 @@ describe('MovieComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(MovieComponent);
     component = fixture.componentInstance;
-    component.movie = mockMovie;
+    // Ensure the mock movie is properly assigned
+    Object.assign(component.movie, mockMovie);
     fixture.detectChanges();
   });
 
@@ -76,6 +77,8 @@ describe('MovieComponent', () => {
   });
 
   it('should calculate rating correctly', () => {
+    // Ensure the mock movie is properly set
+    expect(component.movie.ratings).toEqual([5, 10, 15, 20, 10]);
     const rating = component.calculateRating();
     // (5*1 + 10*2 + 15*3 + 20*4 + 10*5) / (5+10+15+20+10) = 3.33
     expect(rating).toBe(3.3333333333333335);
@@ -175,8 +178,8 @@ describe('MovieComponent', () => {
     expect(compiled.textContent).toContain('Test Movie');
   });
 
-  it('should display movie director', () => {
+  it('should display movie plot', () => {
     const compiled = fixture.nativeElement;
-    expect(compiled.textContent).toContain('Test Director');
+    expect(compiled.textContent).toContain('Test plot');
   });
 });

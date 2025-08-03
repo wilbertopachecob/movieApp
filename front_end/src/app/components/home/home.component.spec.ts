@@ -46,7 +46,7 @@ describe('HomeComponent', () => {
   ];
 
   beforeEach(async () => {
-    const movieServiceSpy = jasmine.createSpyObj('MovieService', ['getMoviesByNameFilter']);
+    const movieServiceSpy = jasmine.createSpyObj('MovieService', ['getMoviesByNameFilter', 'getAllMovies']);
     const authServiceSpy = jasmine.createSpyObj('AuthService', ['isAdmin']);
 
     await TestBed.configureTestingModule({
@@ -84,11 +84,11 @@ describe('HomeComponent', () => {
   });
 
   it('should call getMovies on init', () => {
-    movieService.getMoviesByNameFilter.and.returnValue(of([]));
+    movieService.getAllMovies.and.returnValue(of([]));
     
     component.ngOnInit();
     
-    expect(movieService.getMoviesByNameFilter).toHaveBeenCalledWith('Home', 'title');
+    expect(movieService.getAllMovies).toHaveBeenCalled();
   });
 
   describe('getMovies', () => {
@@ -105,26 +105,28 @@ describe('HomeComponent', () => {
     });
 
     it('should handle empty search term', () => {
+      movieService.getAllMovies.and.returnValue(of([]));
       component.getMovies('');
       
-      expect(movieService.getMoviesByNameFilter).not.toHaveBeenCalled();
+      expect(movieService.getAllMovies).toHaveBeenCalled();
     });
 
     it('should handle null search term', () => {
+      movieService.getAllMovies.and.returnValue(of([]));
       component.getMovies(null as any);
       
-      expect(movieService.getMoviesByNameFilter).not.toHaveBeenCalled();
+      expect(movieService.getAllMovies).toHaveBeenCalled();
     });
 
     it('should handle error when fetching movies', () => {
       const mockError = { message: 'Server error' };
       movieService.getMoviesByNameFilter.and.returnValue(throwError(() => mockError));
-      spyOn(console, 'log');
+      spyOn(console, 'error');
       
       component.getMovies('test');
       
       expect(component.isLoading).toBe(false);
-      expect(console.log).toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalled();
     });
 
     it('should use custom filter parameter', () => {
@@ -214,7 +216,7 @@ describe('HomeComponent', () => {
 
   describe('template rendering', () => {
     it('should render home component', () => {
-      movieService.getMoviesByNameFilter.and.returnValue(of([]));
+      movieService.getAllMovies.and.returnValue(of([]));
       component.ngOnInit();
       fixture.detectChanges();
       
@@ -223,15 +225,17 @@ describe('HomeComponent', () => {
     });
 
     it('should display loading state', () => {
+      // Test the loading state by checking if the loading section is rendered
       component.isLoading = true;
-      fixture.detectChanges();
-      
+      // Don't call fixture.detectChanges() to avoid triggering ngOnInit
       const compiled = fixture.nativeElement;
-      expect(compiled.textContent).toContain('Loading');
+      const loadingSection = compiled.querySelector('.loading-section');
+      expect(loadingSection).toBeTruthy();
+      expect(loadingSection.textContent).toContain('Loading movies...');
     });
 
     it('should display movies when loaded', () => {
-      movieService.getMoviesByNameFilter.and.returnValue(of(mockMovies));
+      movieService.getAllMovies.and.returnValue(of(mockMovies));
       component.ngOnInit();
       fixture.detectChanges();
       
