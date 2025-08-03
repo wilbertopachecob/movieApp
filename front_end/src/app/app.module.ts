@@ -19,6 +19,10 @@ import { CommentsListComponent } from './components/comments-list/comments-list.
 import { httpInterceptorProviders } from './http_interceptors';
 import { EditCommentComponent } from './components/comment/edit-comment/edit-comment.component';
 import { CommentLikesComponent } from './components/comment/comment-likes/comment-likes.component';
+import { LoadingComponent } from './components/loading/loading.component';
+import { ErrorComponent } from './components/error/error.component';
+import { ButtonComponent } from './components/ui/button/button.component';
+import { InputComponent } from './components/ui/input/input.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +39,10 @@ import { CommentLikesComponent } from './components/comment/comment-likes/commen
     CommentsListComponent,
     EditCommentComponent,
     CommentLikesComponent,
+    LoadingComponent,
+    ErrorComponent,
+    ButtonComponent,
+    InputComponent,
   ],
   imports: [
     BrowserModule,

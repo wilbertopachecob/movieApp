@@ -1,54 +1,73 @@
-<div class="container mt-5">
-  <div class="row">
-    <div class="col-12 mb-2" *ngIf="canManage()">
-      <a class="btn btn-primary float-right" routerLink="/movie/add"
-        ><i class="fas fa-plus"></i> Add Movie</a
-      >
+<div class="home-container">
+  <div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1 class="page-title">Discover Amazing Movies</h1>
+      <p class="page-subtitle">Explore our collection of films and find your next favorite movie</p>
     </div>
-    <div class="col-xl-12 filters">
-      <form>
-        <div class="row">
-          <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
-            <div class="form-group">
-              <select name="filters" id="filters" class="form-control" #filters>
-                <option value="title">Title</option>
-                <option value="genre">Genre</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 mb-3">
-            <input
-              type="text"
-              class="form-control"
-              id="search_field"
-              aria-label="Search"
-              aria-describedby="search_movie"
-              (keyup.enter)="getMovies(searchMovie.value, filters.value)"
-              #searchMovie
-            />
-          </div>
-          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
-            <button
-              class="btn btn-outline-secondary"
-              type="button"
-              id="search_movie"
-              (click)="getMovies(searchMovie.value, filters.value)"
-            >
-              <i class="fas fa-search"></i>
-              Search
-            </button>
-          </div>
+
+    <!-- Add Movie Button -->
+    <div class="add-movie-section" *ngIf="canManage()">
+      <a class="add-movie-button" routerLink="/movie/add">
+        <i class="fas fa-plus"></i>
+        <span>Add Movie</span>
+      </a>
+    </div>
+
+    <!-- Search and Filter Section -->
+    <div class="search-section">
+      <h2 class="search-title">Find Your Perfect Movie</h2>
+      <form class="search-form">
+        <div class="filter-group">
+          <label for="filters" class="filter-label">Search by</label>
+          <select name="filters" id="filters" class="filter-select" #filters>
+            <option value="title">Title</option>
+            <option value="genre">Genre</option>
+          </select>
         </div>
+        
+        <div class="search-group">
+          <input
+            type="text"
+            class="search-input"
+            id="search_field"
+            placeholder="Search for movies..."
+            aria-label="Search movies"
+            (keyup.enter)="getMovies(searchMovie.value, filters.value)"
+            #searchMovie
+          />
+          <i class="fas fa-search search-icon"></i>
+        </div>
+        
+        <button
+          type="button"
+          class="search-button"
+          id="search_movie"
+          (click)="getMovies(searchMovie.value, filters.value)"
+        >
+          <i class="fas fa-search"></i>
+          <span>Search</span>
+        </button>
       </form>
     </div>
-  </div>
-  <div class="row mt-3">
-    <app-movie
-      *ngFor="let movie of movies"
-      [movie]="movie"
-      class="card col-sm-12 col-md-12 col-lg-4 my-1 px-0"
-      (removedMovie)="removeFromMovies($event)"
-      role="button"
-    ></app-movie>
+
+    <!-- Movies Grid -->
+    <div class="movies-grid" *ngIf="movies.length > 0">
+      <app-movie
+        *ngFor="let movie of movies"
+        [movie]="movie"
+        (removedMovie)="removeFromMovies($event)"
+        role="button"
+      ></app-movie>
+    </div>
+
+    <!-- Empty State -->
+    <div class="movies-empty" *ngIf="movies.length === 0">
+      <i class="fas fa-film movies-empty-icon"></i>
+      <h3 class="movies-empty-title">No movies found</h3>
+      <p class="movies-empty-text">
+        Try adjusting your search criteria or browse our collection to discover new films.
+      </p>
+    </div>
   </div>
 </div>

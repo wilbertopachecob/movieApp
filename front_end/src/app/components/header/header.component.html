@@ -1,63 +1,62 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#"><i class="fas fa-film"></i> MovieApp</a>
-  <button
-    class="navbar-toggler"
-    type="button"
-    data-toggle="collapse"
-    data-target="#navbarNavAltMarkup"
-    aria-controls="navbarNavAltMarkup"
-    aria-expanded="false"
-    aria-label="Toggle navigation"
-  >
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav">
-      <a class="nav-item nav-link" routerLink="/" routerLinkActive="active"
-        >Home <span class="sr-only">(current)</span></a
-      >
-    </div>
-    <div
-      *ngIf="!isLoggedIn(); else userSettings"
-      class="navbar-nav"
-      style="margin-left: auto"
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/">
+      <i class="fas fa-film"></i>
+      <span>MovieApp</span>
+    </a>
+    
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
     >
-      <a
-        class="nav-item nav-link"
-        role="button"
-        routerLink="/login"
-        routerLinkActive="active"
-        >Log in</a
-      >
-      <!-- <a
-        class="nav-item nav-link"
-        role="button"
-        routerLink="/sigin"
-        routerLinkActive="active"
-        >Sign in</a
-      > -->
-    </div>
-    <ng-template #userSettings>
-      <div
-        class="row"
-        #userSettings
-        style="margin-left: auto; margin-right: 20px"
-      >
-        <div class="col">
-          <div ngbDropdown class="d-inline-block">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/" routerLinkActive="active">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+          </a>
+        </li>
+      </ul>
+      
+      <div class="navbar-nav" *ngIf="!isLoggedIn(); else userSettings">
+        <div class="nav-item">
+          <a class="nav-link" routerLink="/login" routerLinkActive="active">
+            <i class="fas fa-sign-in-alt"></i>
+            <span>Log in</span>
+          </a>
+        </div>
+      </div>
+      
+      <ng-template #userSettings>
+        <div class="user-dropdown">
+          <div ngbDropdown>
             <button
-              class="btn btn-outline-primary"
-              id="dropdownBasic1"
+              class="dropdown-toggle"
+              id="userDropdown"
               ngbDropdownToggle
+              aria-expanded="false"
             >
               <i class="fas fa-user-circle"></i>
+              <span>Account</span>
             </button>
-            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-              <button ngbDropdownItem (click)="logout()">Logout</button>
+            <div ngbDropdownMenu aria-labelledby="userDropdown" class="dropdown-menu">
+              <button ngbDropdownItem class="dropdown-item" (click)="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+              </button>
             </div>
           </div>
         </div>
-      </div>
-    </ng-template>
+      </ng-template>
+    </div>
   </div>
 </nav>
