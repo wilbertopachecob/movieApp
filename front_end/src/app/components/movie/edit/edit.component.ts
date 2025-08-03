@@ -5,7 +5,7 @@ import { MovieService } from 'src/app/services/movie.service';
 import languages from '../../../helpers/languages';
 import countries from '../../../helpers/countries';
 import { Movie } from 'src/app/models/Movie';
-import * as moment from 'moment';
+import { format } from 'date-fns';
 
 @Component({
   selector: 'app-edit',
@@ -83,6 +83,6 @@ export class EditComponent implements OnInit {
     const elem: HTMLInputElement = <HTMLInputElement>(
       document.getElementById('released')
     );
-    elem.value = moment(this.movie.released).format('YYYY-MM-DD');
+    elem.value = format(new Date(this.movie.released), 'yyyy-MM-dd');
   }
 }
