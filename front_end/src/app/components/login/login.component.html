@@ -48,7 +48,7 @@
               #email="ngModel"
               [class.is-invalid]="email.invalid && email.touched"
               required
-              aria-describedby="email-error email-help"
+              [attr.aria-describedby]="'email-error email-help'"
               aria-required="true"
             />
             <i class="fas fa-envelope input-icon" aria-hidden="true"></i>
@@ -81,7 +81,7 @@
               #password="ngModel"
               [class.is-invalid]="password.invalid && password.touched"
               required
-              aria-describedby="password-error password-help"
+              [attr.aria-describedby]="'password-error password-help'"
               aria-required="true"
             />
             <i class="fas fa-lock input-icon" aria-hidden="true"></i>
@@ -105,7 +105,7 @@
           type="submit" 
           class="login-button"
           [disabled]="f.invalid"
-          aria-describedby="submit-help"
+          [attr.aria-describedby]="'submit-help'"
         >
           <span>Sign In</span>
         </button>

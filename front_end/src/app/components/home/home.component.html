@@ -25,7 +25,7 @@
             id="filters" 
             class="filter-select" 
             #filters
-            aria-describedby="filter-description"
+            [attr.aria-describedby]="'filter-description'"
           >
             <option value="title">Title</option>
             <option value="genre">Genre</option>
@@ -44,7 +44,7 @@
             name="search"
             placeholder="Search for movies..."
             aria-label="Search movies by title or genre"
-            aria-describedby="search-description"
+            [attr.aria-describedby]="'search-description'"
             (keyup.enter)="getMovies(searchMovie.value, filters.value)"
             #searchMovie
           />

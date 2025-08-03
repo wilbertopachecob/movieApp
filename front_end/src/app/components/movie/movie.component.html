@@ -4,7 +4,7 @@
     <img [src]="movie.poster" [alt]="movie.title + ' poster'" loading="lazy" />
     
     <!-- Rating Badge -->
-    <div class="rating-badge" aria-label="Rating: {{ calculateRating() }} out of 5 stars">
+    <div class="rating-badge" [attr.aria-label]="'Rating: ' + calculateRating() + ' out of 5 stars'">
       <span aria-hidden="true">{{ calculateRating() }}</span>
       <span class="sr-only">{{ calculateRating() }} out of 5 stars</span>
     </div>
@@ -17,9 +17,9 @@
   
   <!-- Movie Content -->
   <div class="movie-content">
-    <h3 class="movie-title" id="movie-title-{{ movie.id }}">{{ movie.title }}</h3>
+    <h3 class="movie-title" [id]="'movie-title-' + movie.id">{{ movie.title }}</h3>
     
-    <p class="movie-description" aria-describedby="movie-title-{{ movie.id }}">
+    <p class="movie-description" [attr.aria-describedby]="'movie-title-' + movie.id">
       {{ movie.plot || 'Experience this amazing film with stunning visuals and compelling storytelling.' }}
     </p>
     
@@ -33,7 +33,7 @@
       <a 
         class="action-button edit-button" 
         [routerLink]="['/movie/edit', movie.id || 0]"
-        aria-label="Edit {{ movie.title }}"
+        [attr.aria-label]="'Edit ' + movie.title"
         tabindex="0"
       >
         <i class="fas fa-edit" aria-hidden="true"></i>

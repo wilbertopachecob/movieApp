@@ -15,7 +15,7 @@
       <span class="sr-only">Close</span>
     </button>
   </div>
-  <div class="modal-body" role="dialog" aria-labelledby="movie-modal-title" aria-describedby="movie-description">
+  <div class="modal-body" role="dialog" [attr.aria-labelledby]="'movie-modal-title'" [attr.aria-describedby]="'movie-description'">
     <img [src]="movie.poster" [alt]="movie.title + ' poster'" class="float-left mr-2" loading="lazy" />
     <p id="movie-description">{{ movie.plot }}</p>
     <div class="clearfix"></div>
