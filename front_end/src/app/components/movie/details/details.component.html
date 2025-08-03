@@ -1,41 +1,70 @@
 <ng-template #content let-modal>
   <div class="modal-header">
     <h2 class="modal-title" id="movie-modal-title">
-      <i class="fas fa-file" aria-hidden="true"></i>
+      <i class="fas fa-film" aria-hidden="true"></i>
       {{ movie.title }}
     </h2>
     <button
       type="button"
-      class="close"
+      class="close-btn"
       aria-label="Close movie details"
       (click)="modal.dismiss('Cross click')"
       tabindex="0"
     >
-      <span aria-hidden="true">&times;</span>
-      <span class="sr-only">Close</span>
+      <i class="fas fa-times" aria-hidden="true"></i>
     </button>
   </div>
   <div class="modal-body" role="dialog" [attr.aria-labelledby]="'movie-modal-title'" [attr.aria-describedby]="'movie-description'">
-    <img [src]="movie.poster" [alt]="movie.title + ' poster'" class="float-left mr-2" loading="lazy" />
-    <p id="movie-description">{{ movie.plot }}</p>
-    <div class="clearfix"></div>
-    <section aria-label="Rate this movie">
+    <div class="movie-content">
+      <div class="movie-poster">
+        <img [src]="movie.poster" [alt]="movie.title + ' poster'" loading="lazy" />
+      </div>
+      <div class="movie-info">
+        <div class="movie-meta">
+          <div class="movie-year" *ngIf="movie.released">
+            <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+            <span>{{ movie.released }}</span>
+          </div>
+          <div class="movie-genre" *ngIf="movie.genre">
+            <i class="fas fa-tags" aria-hidden="true"></i>
+            <span>{{ movie.genre }}</span>
+          </div>
+          <div class="movie-director" *ngIf="movie.director">
+            <i class="fas fa-user-tie" aria-hidden="true"></i>
+            <span>{{ movie.director }}</span>
+          </div>
+        </div>
+        <div class="movie-plot">
+          <p id="movie-description">{{ movie.plot }}</p>
+        </div>
+      </div>
+    </div>
+    
+    <section class="rating-section" aria-label="Rate this movie">
+      <h3 class="section-title">
+        <i class="fas fa-star" aria-hidden="true"></i>
+        Rate this movie
+      </h3>
       <app-rate-movie [movie]="movie"></app-rate-movie>
     </section>
-    <div class="clearfix"></div>
-    <section class="comments-container" aria-label="Movie comments">
+    
+    <section class="comments-section" aria-label="Movie comments">
+      <h3 class="section-title">
+        <i class="fas fa-comments" aria-hidden="true"></i>
+        Comments
+      </h3>
       <app-comments-list [movie]="movie"></app-comments-list>
     </section>
   </div>
   <div class="modal-footer">
     <button
       type="button"
-      class="btn btn-danger"
+      class="btn btn-secondary"
       (click)="modal.close('Close click')"
       aria-label="Close movie details modal"
       tabindex="0"
     >
-      <i class="fas fa-times-circle" aria-hidden="true"></i>
+      <i class="fas fa-times" aria-hidden="true"></i>
       Close
     </button>
   </div>

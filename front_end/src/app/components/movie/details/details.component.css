@@ -1,0 +1,320 @@
+/* Movie Details Modal Styling */
+
+/* Modal Header */
+.modal-header {
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  color: var(--white);
+  border-bottom: none;
+  padding: var(--spacing-lg) var(--spacing-xl);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  position: relative;
+}
+
+.modal-title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.modal-title i {
+  font-size: var(--font-size-xl);
+  opacity: 0.9;
+}
+
+/* Close button styles are now in global CSS */
+.close-btn {
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: var(--white);
+}
+
+.close-btn:focus {
+  outline-color: var(--white);
+}
+
+/* Modal Body */
+.modal-body {
+  padding: var(--spacing-xl);
+  background: var(--bg-primary);
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+/* Movie Content Layout */
+.movie-content {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: var(--spacing-xl);
+  margin-bottom: var(--spacing-2xl);
+  align-items: start;
+}
+
+.movie-poster {
+  position: relative;
+}
+
+.movie-poster img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  transition: transform var(--transition-normal);
+}
+
+.movie-poster img:hover {
+  transform: scale(1.02);
+}
+
+.movie-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+/* Movie Meta Information */
+.movie-meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.movie-year,
+.movie-genre,
+.movie-director {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.movie-year i,
+.movie-genre i,
+.movie-director i {
+  color: var(--primary-color);
+  width: 16px;
+  text-align: center;
+}
+
+/* Movie Plot */
+.movie-plot p {
+  color: var(--text-primary);
+  line-height: var(--line-height-relaxed);
+  font-size: var(--font-size-base);
+  margin: 0;
+  text-align: justify;
+}
+
+/* Section Styling */
+.rating-section,
+.comments-section {
+  margin-top: var(--spacing-2xl);
+  padding-top: var(--spacing-xl);
+  border-top: 1px solid var(--gray-200);
+}
+
+.section-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.section-title i {
+  color: var(--primary-color);
+  font-size: var(--font-size-lg);
+}
+
+/* Modal Footer */
+.modal-footer {
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--gray-200);
+  padding: var(--spacing-lg) var(--spacing-xl);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modal-footer .btn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  font-weight: var(--font-weight-medium);
+  transition: all var(--transition-normal);
+}
+
+.modal-footer .btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .modal-header {
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+  
+  .modal-title {
+    font-size: var(--font-size-xl);
+  }
+  
+  .modal-body {
+    padding: var(--spacing-lg);
+    max-height: 60vh;
+  }
+  
+  .movie-content {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+  
+  .movie-poster {
+    max-width: 200px;
+    margin: 0 auto;
+  }
+  
+  .movie-meta {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+  }
+  
+  .movie-year,
+  .movie-genre,
+  .movie-director {
+    flex: 1;
+    min-width: 120px;
+  }
+  
+  .section-title {
+    font-size: var(--font-size-lg);
+  }
+  
+  .modal-footer {
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-header {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+  
+  .modal-body {
+    padding: var(--spacing-md);
+  }
+  
+  .movie-meta {
+    flex-direction: column;
+  }
+  
+  .movie-year,
+  .movie-genre,
+  .movie-director {
+    flex: none;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .modal-body {
+    background: var(--gray-900);
+  }
+  
+  .modal-footer {
+    background: var(--gray-800);
+    border-top-color: var(--gray-700);
+  }
+  
+  .rating-section,
+  .comments-section {
+    border-top-color: var(--gray-700);
+  }
+  
+  .movie-plot p {
+    color: var(--gray-100);
+  }
+  
+  .section-title {
+    color: var(--gray-100);
+  }
+  
+  .movie-year,
+  .movie-genre,
+  .movie-director {
+    color: var(--gray-400);
+  }
+}
+
+/* Animation for modal content */
+.movie-content {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom scrollbar for modal body */
+.modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+  background: var(--gray-100);
+  border-radius: var(--radius-full);
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+  background: var(--gray-300);
+  border-radius: var(--radius-full);
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+  background: var(--gray-400);
+}
+
+/* Focus styles for accessibility */
+.modal-body:focus-within {
+  outline: none;
+}
+
+/* Loading state for poster */
+.movie-poster img {
+  background: linear-gradient(90deg, var(--gray-200) 25%, var(--gray-100) 50%, var(--gray-200) 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.movie-poster img[src] {
+  background: none;
+  animation: none;
+}

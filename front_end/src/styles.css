@@ -429,3 +429,93 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--gray-400);
 }
+
+/* Consistent Close Button Styles */
+.close-btn,
+.alert-close,
+.close {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+  border-radius: var(--radius-full);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-normal);
+  backdrop-filter: blur(10px);
+  flex-shrink: 0;
+  cursor: pointer;
+  font-size: var(--font-size-lg);
+  text-decoration: none;
+}
+
+.close-btn:hover,
+.alert-close:hover,
+.close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.close-btn:focus,
+.alert-close:focus,
+.close:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+.close-btn i,
+.alert-close i {
+  font-size: var(--font-size-base);
+}
+
+/* Dark mode support for close buttons */
+@media (prefers-color-scheme: dark) {
+  .close-btn,
+  .alert-close,
+  .close {
+    background: rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: var(--gray-100);
+  }
+  
+  .close-btn:hover,
+  .alert-close:hover,
+  .close:hover {
+    background: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: var(--white);
+  }
+}
+
+/* Modal header with flexbox layout */
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+}
+
+.modal-title {
+  flex: 1;
+  margin: 0;
+}
+
+/* Alert styling with flexbox */
+.alert {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  position: relative;
+}
+
+.alert .close,
+.alert .alert-close {
+  position: static;
+  margin-left: auto;
+}
