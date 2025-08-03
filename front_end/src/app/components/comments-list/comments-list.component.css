@@ -1,60 +1,278 @@
+/* Comments List Component Styling */
+
 .card {
-    /* border: none; */
-    box-shadow: 5px 6px 6px 2px #e9ecef;
-    border-radius: 4px
+  border: 1px solid var(--gray-200);
+  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius-lg);
+  background: var(--bg-primary);
+  transition: all var(--transition-normal);
+  margin-bottom: var(--spacing-md);
 }
 
-.dots {
-    height: 4px;
-    width: 4px;
-    margin-bottom: 2px;
-    background-color: #bbb;
-    border-radius: 50%;
-    display: inline-block
+.card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
 }
 
-.badge {
-    padding: 7px;
-    padding-right: 9px;
-    padding-left: 16px;
-    box-shadow: 5px 6px 6px 2px #e9ecef
+.card .p-3 {
+  padding: var(--spacing-lg) !important;
 }
 
-.user-img {
-    margin-top: 4px
+/* User avatar styling */
+.user .d-inline.rounded-circle {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)) !important;
+  border: 2px solid var(--primary-light) !important;
+  color: var(--white) !important;
+  font-size: var(--font-size-lg);
+  margin-right: var(--spacing-sm);
+  box-shadow: var(--shadow-sm);
 }
 
-.check-icon {
-    font-size: 17px;
-    color: #c3bfbf;
-    top: 1px;
-    position: relative;
-    margin-left: 3px
+.user .d-inline.rounded-circle i {
+  padding: 0 !important;
 }
 
-.form-check-input {
-    margin-top: 6px;
-    margin-left: -24px !important;
-    cursor: pointer
+/* User info styling */
+.user span {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
 }
 
-.form-check-input:focus {
-    box-shadow: none
+.user .font-weight-bold.text-primary {
+  color: var(--primary-color) !important;
+  font-weight: var(--font-weight-semibold) !important;
+  font-size: var(--font-size-sm);
 }
 
-.icons i {
-    margin-left: 8px
+.user .font-weight-bold:not(.text-primary) {
+  color: var(--text-primary) !important;
+  font-weight: var(--font-weight-normal) !important;
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+}
+
+/* Date styling */
+small .far.fa-calendar-alt {
+  color: var(--text-muted);
+  margin-right: var(--spacing-xs);
+}
+
+/* Action buttons styling */
+.action {
+  margin-top: var(--spacing-md) !important;
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--gray-200);
 }
 
 .reply {
-    margin-left: 12px
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: 0 !important;
+  margin-left: 0 !important;
 }
 
 .reply small {
-    color: #b7b4b4
+  color: var(--text-muted) !important;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  text-decoration: none;
 }
 
 .reply small:hover {
-    color: green;
-    cursor: pointer
+  color: var(--primary-color) !important;
+  background: var(--primary-color);
+  color: var(--white) !important;
+  transform: translateY(-1px);
+}
+
+/* Dots separator */
+.dots {
+  height: 4px;
+  width: 4px;
+  background-color: var(--gray-400) !important;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 0 var(--spacing-xs);
+}
+
+/* Reply toggle styling */
+a[style*="text-decoration: none"] {
+  color: var(--primary-color);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  margin-top: var(--spacing-md);
+}
+
+a[style*="text-decoration: none"]:hover {
+  background: var(--gray-100);
+  text-decoration: none !important;
+}
+
+a[style*="text-decoration: none"] i {
+  transition: transform var(--transition-fast);
+}
+
+a[style*="text-decoration: none"]:hover i {
+  transform: scale(1.1);
+}
+
+/* Nested comments */
+.card .card {
+  margin-left: var(--spacing-xl);
+  border-left: 3px solid var(--primary-color);
+  background: var(--bg-secondary);
+}
+
+/* Add comment section */
+app-add-comment {
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-lg);
+  border-top: 2px solid var(--gray-200);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .card .p-3 {
+    padding: var(--spacing-md) !important;
+  }
+  
+  .user .d-inline.rounded-circle {
+    width: 35px;
+    height: 35px;
+    font-size: var(--font-size-base);
+  }
+  
+  .card .card {
+    margin-left: var(--spacing-lg);
+  }
+  
+  .reply {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+  }
+}
+
+@media (max-width: 480px) {
+  .card .p-3 {
+    padding: var(--spacing-sm) !important;
+  }
+  
+  .user span {
+    font-size: var(--font-size-sm);
+  }
+  
+  .card .card {
+    margin-left: var(--spacing-md);
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .card {
+    background: var(--gray-900);
+    border-color: var(--gray-700);
+  }
+  
+  .card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .user .font-weight-bold:not(.text-primary) {
+    color: var(--gray-100) !important;
+  }
+  
+  .action {
+    border-top-color: var(--gray-700);
+  }
+  
+  .reply small {
+    color: var(--gray-400) !important;
+  }
+  
+  .reply small:hover {
+    background: var(--primary-color);
+    color: var(--white) !important;
+  }
+  
+  .dots {
+    background-color: var(--gray-600) !important;
+  }
+  
+  a[style*="text-decoration: none"]:hover {
+    background: var(--gray-800);
+  }
+  
+  .card .card {
+    background: var(--gray-800);
+  }
+  
+  app-add-comment {
+    border-top-color: var(--gray-700);
+  }
+}
+
+/* Animation for new comments */
+.card {
+  animation: slideInUp 0.3s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Focus styles for accessibility */
+.reply small:focus,
+a[style*="text-decoration: none"]:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Loading state for comments */
+.card.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.card.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid var(--gray-300);
+  border-top: 2px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

@@ -4,15 +4,15 @@
     class="alert alert-dismissible"
     [ngClass]="'alert-' + flashMSG.type"
   >
-    <a
-      class="close"
-      data-dismiss="alert"
-      aria-label="close"
-      style="cursor: pointer"
+    <span>{{ flashMSG.msg }}</span>
+    <button
+      class="close-btn"
+      aria-label="Close alert message"
       (click)="flashMSG = null"
-      >&times;</a
+      type="button"
     >
-    {{ flashMSG.msg }}
+      <i class="fas fa-times" aria-hidden="true"></i>
+    </button>
   </div>
   <form #f="ngForm" (submit)="update(f)">
     <div class="mb-3">
